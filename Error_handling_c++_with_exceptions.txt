@@ -1,0 +1,94 @@
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include <vector>   //for vectors
+#include<list>  //for lists
+#include <exception>
+bool pullout_contents(std::string in_file, std::list<std::string> &elements)
+{ 
+	std::ifstream input_file(in_file.c_str());
+	
+	input_file.exceptions(std::ifstream::badbit | std::ifstream::goodbit);
+	
+	if (!input_file)
+		throw "nofile";
+	
+	elements.clear();
+	std::string line;
+	for (int line_no = 1; std::getline(input_file, line); ++line_no)
+	{
+		elements.push_back(line);
+	}
+	input_file.close();
+	return true;
+}
+
+void show_contents(std::ostream &out, const std::list<std::string> &elements)
+{
+	std::list<std::string>::const_iterator iter = elements.begin();
+	for( ;iter != elements.end(); ++iter)
+	{
+		out << (*iter) << std::endl;
+	}
+}
+
+bool pushin_contents(std::string out_file, const std::list<std::string> &elements)
+{ 
+	std::ofstream output_file(out_file.c_str());
+	show_contents(output_file, elements);// using polymorphism
+	output_file.close();
+	return true;
+}
+
+
+int main(int argc, char *argv[])
+{
+
+	std::cout << "There are " << argc << " arguments." << std::endl;
+	for (int i = 0; i != argc; ++i)
+	{
+		std::cout << argv[i] << std::endl;
+	}
+	try
+	{
+		std::string in_file;
+		in_file = argv[1];
+
+		std::string out_file;
+		out_file = in_file + ".out";
+
+		std::list<std::string> elements;
+		elements.clear();
+
+		if (!pullout_contents(in_file, elements))
+		{
+			return -1;
+		}
+
+		show_contents(std::cout, elements);
+		if (!pushin_contents(out_file , elements))
+		{
+			return -1;
+		}
+	}
+
+	catch (std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+		//std::cout << e.what() << std::endl;
+		return false;
+	}//use exceptions for issues not controlled by programmers,
+
+	catch (std::fstream::failure &e)
+	{
+		std::cerr << "I can't read " << "." << std::endl;
+		//std::cout << "I can't read " << "." << std::endl
+		return -1;
+	}
+	catch (const char *e)
+	{
+		std::cerr << e;
+	}
+	std::cin.get();
+	return 0;
+}

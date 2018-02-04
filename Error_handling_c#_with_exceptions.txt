@@ -1,0 +1,106 @@
+using System;//for Console
+using System.Collections.Generic;//for lists
+using System.Linq;//for Count()
+//using System.Text;
+//using System.Threading.Tasks;
+using System.IO;//to use StreamReader
+
+namespace lec2csharp
+{
+    class Program
+    {
+        static bool Pullout_contents(string in_file, List<string> elements)
+        {
+            StreamReader input_file = new StreamReader(in_file.ToString());
+
+            if (input_file == null)
+                throw new ArgumentNullException("nofile");
+
+            elements.Clear();
+            string line = "";
+            for (int line_no = 1; (line = input_file.ReadLine()) != null; ++line_no)
+            {
+                elements.Add(line);
+            }
+            //input_file.Close();
+            return true;
+        }
+
+        static void Show_contents(StreamWriter Out, List<string> elements)
+        {
+            foreach (string iter in elements)
+            {
+                Console.WriteLine(iter);
+            }
+        }
+
+        static bool Pushin_contents(string out_file, List<string> elements)
+        {
+            StreamWriter output_file = new StreamWriter(out_file.ToString());
+            output_file.AutoFlush = true;
+            Console.SetOut(output_file);
+            Show_contents(output_file, elements);// using polymorphism
+            //output_file.Close();
+            return true;
+        }
+
+        static void Main(string[] args)
+        {
+            //int argc = args.Length;
+            int argc = args.Count();
+            Console.WriteLine("There are {0} arguments.", argc);
+            for (int i = 0; i != argc; ++i)
+            {
+                Console.WriteLine(args[i]);
+            }
+            StreamReader input_file = null;
+            StreamWriter output_file = null;
+            try
+            {
+                string in_file;
+                in_file = args[0];
+
+                string out_file;
+                out_file = in_file+ ".out";
+
+                List<string> elements = new List<string>();
+                elements.Clear();
+
+                if (!Pullout_contents(in_file, elements))
+                {
+                    return;
+                }
+
+                Show_contents(output_file, elements);
+
+                if (!Pushin_contents(out_file , elements))
+                {
+                    return;
+                }
+            }
+            //catch (FileNotFoundException ex)
+            //{
+            //    //Console.Error.WriteLine("I can't find file{0}", ex.FileName);
+            //    Console.WriteLine("I can't find file{0}", ex.FileName);
+            //}
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+                Console.Error.WriteLine(ex.StackTrace);
+                Console.Error.WriteLine(ex.GetType().Name);
+                //Console.WriteLine(ex.Message);
+                //Console.WriteLine(ex.StackTrace);
+                //Console.WriteLine(ex.GetType().Name);
+            }
+            finally
+            {
+                if (input_file != null)
+                {
+                    input_file.Close();
+                    output_file.Close();
+                }
+            }
+            Console.ReadLine();
+        }
+    }
+}

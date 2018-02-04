@@ -1,0 +1,36 @@
+using System;//to use Console
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
+using System.IO;//to use StreamReader
+
+namespace lec1csharp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            StreamReader input_file = null;
+            StreamWriter output_file = null;
+            input_file = new StreamReader("test.txt");
+            //output_file = new StreamWriter("test.txt.1");
+            string out_file = "test.txt";
+            out_file += ".1";
+            output_file = new StreamWriter(out_file.ToString());
+            string line = "";
+            for (int line_no = 0;  (line = input_file.ReadLine()) != null; ++line_no)
+            {
+                Console.WriteLine("LINE {0} :{1}", line_no, line);
+                output_file.WriteLine("LINE {0} :{1}", line_no, line);
+            }
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+            Console.WriteLine("Press any key to continue . . .");
+            Console.ReadLine();
+        }
+    }
+}

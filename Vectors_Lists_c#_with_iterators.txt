@@ -1,0 +1,61 @@
+using System;
+using System.Collections.Generic;//for string
+using System.Linq;//for Count
+//using System.Text;
+//using System.Threading.Tasks;
+using System.IO;//to use StreamReader
+
+namespace lec2csharp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //int argc = args.Length;
+            int argc = args.Count();
+            Console.WriteLine("There are {0} arguments.", argc);
+            for (int i = 0; i != argc; ++i)
+            {
+                Console.WriteLine(args[i]);
+            }
+            StreamReader input_file = null;
+            StreamWriter output_file = null;
+
+            string in_file;
+            in_file = args[0];
+            input_file = new StreamReader(in_file.ToString());
+
+            string out_file;
+            out_file = args[0];
+            out_file += ".1";
+            output_file = new StreamWriter(out_file.ToString());
+            string line = "";
+
+            List<string> elements = new List<string>();
+            for (int line_no = 1; (line = input_file.ReadLine()) != null; ++line_no)
+            {
+                elements.Add(line);
+            }
+
+            //for (int i = 0; i < elements.Count(); ++i)
+            //{
+            //    Console.WriteLine(elements[i]);
+            //    output_file.WriteLine(elements[i]);
+            //}
+
+            foreach (string iter in elements)
+            {
+                Console.WriteLine(iter);
+                output_file.WriteLine(iter);
+            }
+
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+            Console.WriteLine("Press any key to continue . . .");
+            Console.ReadLine();
+        }
+    }
+}

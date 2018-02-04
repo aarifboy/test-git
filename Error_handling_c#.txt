@@ -1,0 +1,56 @@
+using System;
+using System.IO;//to use StreamReader
+namespace lec2csharp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int argc = args.Length;
+
+            if (argc < 1)
+            {
+                Console.Error.WriteLine("provide a input file name for command line args in properties.");
+                return;
+            }
+
+            Console.WriteLine("There are {0} arguments.", argc);
+            for (int i = 0; i != argc; ++i)
+            {
+                Console.WriteLine(args[i]);
+            }
+
+            StreamReader input_file = new StreamReader(args[0]);
+
+            if (input_file == null)
+            {
+                Console.Error.WriteLine("no input file {0} provided. ", args[0]);
+                return;
+            }
+
+            string out_file = args[0];
+            out_file += ".out";
+            StreamWriter output_file = new StreamWriter(out_file.ToString());
+
+            if (output_file == null)
+            {
+                Console.Error.WriteLine("no output file{0}. ", out_file);
+                return;
+            }
+
+            string line = "";
+            for (int line_no = 0; (line = input_file.ReadLine()) != null; ++line_no)
+            {
+                Console.WriteLine("LINE {0} :{1}", line_no, line);
+                output_file.WriteLine("LINE {0} :{1}", line_no, line);
+            }
+
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+            Console.ReadLine();
+        }
+    }
+}
