@@ -1,0 +1,71 @@
+
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include<list>  //for lists
+#include <map>//for map
+
+struct file_element
+{
+public:
+	int line_no;
+	std::string line;
+};
+
+//class file_element
+//{
+//public:
+//	int line_no;
+//	std::string line;
+//};
+
+int main(int argc, char *argv[])
+{
+	std::ifstream input_file("test.txt");
+	std::ofstream output_file("test.txt.out");
+
+	std::string line;
+
+	//for (int line_no = 1; std::getline(input_file, line); ++line_no)
+	//{
+	//	std::cout << "LINE " << line_no << ":" << line << std::endl;
+	//	output_file << "LINE " << line_no << ":" << line << std::endl;
+	//}
+
+	//std::list<file_element> elements;
+	std::map<std::string, int> elements;
+
+	for (int line_no = 1; std::getline(input_file, line); ++line_no)
+	{
+		file_element element
+		{
+			line_no = line_no,
+			line = line
+		};
+		//elements.push_back(element);
+		elements.insert(std::make_pair(line, line_no));
+		//elements.insert({ line, line_no });
+	}
+
+	//std::list<file_element>::iterator iter = elements.begin();
+	//for (; iter != elements.end(); ++iter)
+	//{
+	//	std::cout << "LINE " << (*iter).line_no << ":" << (*iter).line << std::endl;
+	//	output_file << "LINE " << (*iter).line_no << ":" << (*iter).line << std::endl;
+	//}
+
+	for (std::map<std::string, int>::iterator iter = elements.begin();
+		iter != elements.end(); iter++)
+	{
+		std::cout << "LINE " << (*iter).second << ":" << (*iter).first << std::endl;
+		output_file << "LINE " << (*iter).second << ":" << (*iter).first << std::endl;
+	}
+
+	if (input_file)
+	{
+		input_file.close();
+		output_file.close();
+	}
+	std::cin.get();
+	return 0;
+}
