@@ -1,0 +1,98 @@
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include <vector>   //for vectors
+#include<list>  //for lists
+
+class file_element
+{
+public:
+	int line_no;
+	std::string line;
+
+	file_element()
+	{
+	}
+
+	std::string set_line(std::string l)
+	{
+		return line = l;
+	}
+
+	int set_line_no(int n)
+	{
+		return line_no = n;
+	}
+
+	bool set(std::string l, int n)
+	{
+		set_line(l);
+		set_line_no(n);
+		return true;
+	}
+
+	file_element(std::string l) 
+	{
+		set_line(l);
+	}
+
+	file_element(int n)
+	{
+		set_line_no(n);
+	}
+
+	//file_element(std::string l, int n)
+	//{
+	//	set_line(l);
+	//	set_line_no(n);
+	//}
+
+	file_element(std::string l,int n):file_element(l)
+	{
+		//set_line(l);
+		set_line_no(n);
+	}
+};
+
+int main(int argc, char *argv[])
+{
+	std::ifstream input_file;
+	input_file.open("test.txt");
+
+	std::ofstream output_file("test.txt.out");
+
+	std::string line;
+
+	std::list<file_element> elements;
+
+	for (int line_no = 1; std::getline(input_file, line); ++line_no)
+	{
+		//file_element element;
+		//element.set_line(line);
+		//element.set_line_no(line_no);
+		//element.set(line,line_no);
+
+		file_element element(line, line_no);
+
+		elements.push_back(element);
+	}
+
+	std::list<file_element>::iterator iter = elements.begin();
+	for (; iter != elements.end(); ++iter)
+	{		
+		//std::cout << (*iter).line_no << ": "<<(*iter).line << std::endl;
+		//output_file << (*iter).line_no << ": "<<(*iter).line << std::endl;
+
+		file_element element(*iter);
+		std::cout << element.line_no<<": " <<element.line << std::endl;		
+		output_file << element.line_no<<": "<<element.line << std::endl;
+	}
+
+	if (input_file)
+	{
+		input_file.close();
+		output_file.close();
+	}
+	std::cin.get();
+	return 0;
+}

@@ -1,0 +1,71 @@
+using System;
+using System.Collections.Generic;//for string
+using System.IO;//to use StreamReader
+
+namespace lec2csharp
+{
+    class Program
+    {
+        //static void Pullout_contents(string in_file, List<string> elements)
+        //static void Pullout_contents(string in_file,ref List<string> elements)
+        static void Pullout_contents(string in_file,out List<string> elements)
+        {
+            StreamReader input_file = new StreamReader(in_file.ToString());
+
+            //elements = new List<string> {};
+            elements = new List<string>() {""};
+
+            elements.Clear();
+            string line = "";
+            for (int line_no = 1; (line = input_file.ReadLine()) != null; ++line_no)
+            {
+                elements.Add(line);
+            }
+            input_file.Close();
+        }
+        //static void Show_contents(StreamWriter Out, List<string> elements)
+        static void Show_contents(ref StreamWriter Out, List<string> elements)
+        {
+            foreach (string iter in elements)
+            {
+                Console.WriteLine(iter);
+            }
+        }
+
+        static void Pushin_contents(string out_file, List<string> elements)
+        {
+            StreamWriter output_file = new StreamWriter(out_file.ToString());
+            output_file.AutoFlush = true;
+            Console.SetOut(output_file);
+
+            //Show_contents(output_file, elements);// using polymorphism
+            Show_contents(ref output_file, elements);// using polymorphism
+
+            output_file.Close();
+        }
+
+        static void Main(string[] args)
+        {
+            StreamWriter output = null;
+
+            string in_file;
+            in_file = "test.txt";
+
+            string out_file;
+            out_file = in_file+ ".out";
+
+            List<string> elements = new List<string>();
+
+            //Pullout_contents(in_file, elements);
+            //Pullout_contents(in_file,ref elements);
+            Pullout_contents(in_file, out elements);
+
+            //Show_contents(output, elements);
+            Show_contents(ref output, elements);
+
+            Pushin_contents(out_file , elements);
+
+            Console.ReadLine();
+        }
+    }
+}

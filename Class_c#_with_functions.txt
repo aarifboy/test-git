@@ -1,0 +1,87 @@
+using System;//for Console
+using System.Collections.Generic;//for lists
+using System.IO;//to use StreamReader
+
+namespace lec2csharp
+{
+    class File_element
+    {
+        string line;
+        int line_no;
+
+        //public string line;
+        //public int line_no;
+        //internal string line;
+        //internal int line_no;
+
+        public void Set_line(string l)
+        {
+            line = l;
+        }
+
+        public void Set_line_no(int n)
+        {
+            line_no = n;
+        }
+
+        public void Set(string l, int n)
+        {
+            Set_line(l);
+            Set_line_no(n);
+        }
+
+        public string Get_line()
+        {
+            return line;
+        }
+
+        public int Get_line_no()
+        {
+            return line_no;
+        }
+    };
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            StreamReader input_file = null;
+            input_file = new StreamReader("test.txt");
+
+            StreamWriter output_file = new StreamWriter("test.txt.out");
+
+            string line = "";
+
+            List<File_element> elements = new List<File_element>();
+
+            for (int line_no = 1; (line = input_file.ReadLine()) != null; ++line_no)
+            {
+                File_element element = new File_element();
+                //element.line = line;
+                //element.line_no = line_no;
+
+                //element.Set_line(line);
+                //element.Set_line_no(line_no);
+                element.Set(line,line_no);
+
+                elements.Add(element);
+            }
+
+            foreach (File_element iter in elements)
+            {
+                //Console.WriteLine("{0}: {1}", iter.line_no, iter.line);
+                //output_file.WriteLine("{0}: {1}", iter.line_no, iter.line);
+
+                Console.WriteLine("{0}: {1}", iter.Get_line_no(), iter.Get_line());
+                output_file.WriteLine("{0}: {1}", iter.Get_line_no(), iter.Get_line());
+            }
+
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+
+            Console.ReadLine();
+        }
+    }
+}

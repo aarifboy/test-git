@@ -1,0 +1,100 @@
+using System;for Console
+using System.Collections.Generic;for lists
+using System.IO;to use StreamReader
+
+namespace lec2csharp
+{
+    class File_element
+    {
+        public string line;
+        public int line_no;
+
+        public File_element()
+        {
+        }
+
+        public string Set_line(string l)
+        {
+            return line = l;
+        }
+
+        public int Set_line_no(int n)
+        {
+            return line_no = n;
+        }
+
+        public bool Set(string l,int n)
+        {
+            Set_line(l);
+            Set_line_no(n);
+            return true;
+        }
+
+        public File_element(string l)
+        {
+            Set_line(l);
+        }
+
+        public File_element(int n)
+        {
+            Set_line_no(n);
+        }
+
+        public File_element(string l, int n)
+        {
+            Set_line(l);
+            Set_line_no(n);
+        }
+
+        public File_element(string l, int n)  this(l)
+        {
+            Set_line(l);
+            Set_line_no(n);
+        }
+    };
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            StreamReader input_file = null;
+            input_file = new StreamReader(test.txt);
+
+            StreamWriter output_file = new StreamWriter(test.txt.out);
+
+            string line = ;
+
+            ListFile_element elements = new ListFile_element();
+
+            for (int line_no = 1; (line = input_file.ReadLine()) != null; ++line_no)
+            {
+                File_element element = new File_element();
+
+                element.Set_line(line);
+                element.Set_line_no(line_no);
+                element.Set(line,line_no);
+
+                File_element element = new File_element(line, line_no);
+
+                elements.Add(element);
+            }
+
+            foreach (File_element iter in elements)
+            {
+                Console.WriteLine({0} {1}, iter.line_no, iter.line);
+                output_file.WriteLine({0} {1}, iter.line_no, iter.line);
+
+                File_element element = new File_element(iter.line, iter.line_no);
+                Console.WriteLine({0} {1}, element.line_no, element.line);
+                output_file.WriteLine({0} {1}, element.line_no, element.line);
+            }
+
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+
+            Console.ReadLine();
+        }
+    }
+}

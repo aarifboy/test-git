@@ -1,0 +1,68 @@
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include<list>  //for lists
+
+//void pullout_contents(std::string in_file, std::list<std::string> &elements)
+void pullout_contents(std::string in_file, std::list<std::string> *elements)
+{
+	std::ifstream input_file(in_file.c_str());
+
+	//elements.clear();
+	(*elements).clear();
+
+	std::string line;
+	for (int line_no = 1; std::getline(input_file, line); ++line_no)
+	{
+		//elements.push_back(line);
+		(*elements).push_back(line);
+	}
+	input_file.close();
+}
+
+//void show_contents(std::ostream &out, const std::list<std::string> elements)
+void show_contents(std::ostream *out, const std::list<std::string> elements)
+{
+	std::list<std::string>::const_iterator iter = elements.begin();
+	for (; iter != elements.end(); ++iter)
+	{
+		//out << (*iter) << std::endl;
+		(*out) << (*iter) << std::endl;
+	}
+}
+
+void pushin_contents(std::string out_file, const std::list<std::string> elements)
+{
+	std::ofstream output_file(out_file.c_str());
+	std::ostream *ptr = &output_file;
+
+	//show_contents(output_file, elements);// using polymorphism
+	show_contents(ptr, elements);// using polymorphism
+	
+	output_file.close();
+}
+
+
+int main(int argc, char *argv[])
+{
+	std::string in_file;
+	in_file = "test.txt";
+
+	std::string out_file;
+	out_file = in_file + ".out";
+
+	std::list<std::string> elements;
+	std::list<std::string>*ptr_elements=& elements;
+	std::ostream *ptr_cout = &std::cout;
+
+	//pullout_contents(in_file, elements);
+	pullout_contents(in_file, ptr_elements);
+
+	//show_contents(std::cout, elements);
+	show_contents(ptr_cout, elements);
+
+	pushin_contents(out_file , elements);
+
+	std::cin.get();
+	return 0;
+}
