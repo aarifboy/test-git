@@ -1,0 +1,82 @@
+//Source.cpp is a source file
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include <list>  //for lists
+#include"Header.h"
+
+int main(int argc, char *argv[])
+{
+	std::string file = "test.txt";
+
+	std::list<file_element> elements;
+	elements.clear();
+
+	pullout_contents(file, elements);
+
+	show_contents(std::cout, elements);
+
+	pushin_contents(file + ".out", elements);
+
+	std::cin.get();
+	return 0;
+}
+
+
+
+//Header.h is a header file
+#pragma once
+#ifndef GUARD_TOKENS_H
+#define GUARD_TOKENS_H
+
+class file_element
+{
+public:
+	std::string line;
+};
+
+void pullout_contents(std::string in_file, std::list<file_element> &elements);
+void show_contents(std::ostream &out, const std::list<file_element> &elements);
+void pushin_contents(std::string out_file, const std::list<file_element> &elements);
+
+#endif
+
+
+
+//Source1.cpp is another source file
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include<list>  //for lists
+#include"Header.h"
+
+void pullout_contents(std::string in_file, std::list<file_element> &elements)
+{
+	std::ifstream input_file(in_file.c_str());
+
+	elements.clear();
+	std::string line;
+	for (int line_no = 1; std::getline(input_file, line); ++line_no)
+	{
+		file_element element;
+		element.line = line;
+		elements.push_back(element);
+	}
+	input_file.close();
+}
+void show_contents(std::ostream &out, const std::list<file_element> &elements)
+{
+	std::list<file_element>::const_iterator iter = elements.begin();
+	for (; iter != elements.end(); ++iter)
+	{
+		out << (*iter).line << std::endl;
+	}
+}
+
+void pushin_contents(std::string out_file, const std::list<file_element> &elements)
+{
+	std::ofstream output_file(out_file.c_str());
+	show_contents(output_file, elements);// using polymorphism
+	output_file.close();
+}
+

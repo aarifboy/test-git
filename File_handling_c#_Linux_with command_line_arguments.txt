@@ -1,0 +1,37 @@
+using System;
+using System.IO;//to use StreamReader
+namespace lec1csharp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int argc = args.Length;
+            Console.WriteLine("There are {0} arguments.", argc);
+            for (int i = 0; i != argc; ++i)
+            {
+                Console.WriteLine(args[i]);
+            }
+
+            StreamReader input_file = null;
+            StreamWriter output_file = null;
+            string in_file = args[0];
+            input_file = new StreamReader(in_file);
+            string out_file = in_file + ".out";
+            output_file = new StreamWriter(out_file);
+
+            string line = "";
+            for (int line_no = 1; (line = input_file.ReadLine()) != null; ++line_no)
+            {
+                Console.WriteLine("LINE {0} :{1}", line_no, line);
+                output_file.WriteLine("LINE {0} :{1}", line_no, line);
+            }
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+            Console.ReadLine();
+        }
+    }
+}
