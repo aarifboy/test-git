@@ -1,0 +1,78 @@
+using System;
+using System.Collections.Generic;//for string
+using System.Linq;//for Count
+//using System.Text;
+//using System.Threading.Tasks;
+using System.IO;//to use StreamReader
+using System.Reflection;
+
+namespace lec2csharp
+{
+    class File_element
+    {
+        public string line { get; set; }
+    };
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            StreamReader input_file = null;
+            StreamWriter output_file = null;
+
+            string in_file = "test.txt";
+            input_file = new StreamReader(in_file.ToString());
+
+            string out_file = in_file + ".out";
+            output_file = new StreamWriter(out_file.ToString());
+
+            int file_size = in_file.Count();
+            Console.WriteLine("in_file with count {0}:", file_size);
+
+            string[] file_lines = File.ReadAllLines(in_file);
+            //string[] file_lines = File.ReadLines(in_file).ToArray();
+            Console.WriteLine("file_lines with count {0}:",file_lines.Count());
+
+            //string[] elements = new string[file_size];
+            //string[] elements = new string[file_lines.Count()];
+
+            File_element[] elements = new File_element[file_lines.Count()];
+
+            string line = "";
+            for (int line_no = 0; (line = input_file.ReadLine()) != null; ++line_no)
+            {
+                File_element element = new File_element();
+                element.line = line;
+
+                //elements[line_no] = line;
+                elements[line_no] = element;
+            }
+
+            Console.WriteLine("elements with count {0}:",elements.Count());
+
+            for (int i = 0; i < file_size; ++i)
+            {
+                //Console.WriteLine(elements[i]);
+                Console.WriteLine(elements[i].line);
+                //output_file.WriteLine(elements[i]);
+                output_file.WriteLine(elements[i].line);
+            }
+
+            //for (int i = 0; i < file_lines.Count(); ++i)
+            ////for (int i = 0; i < elements.Count(); ++i)
+            //{
+            //    //Console.WriteLine(elements[i]);
+            //    Console.WriteLine(elements[i].line);
+            //    //output_file.WriteLine(elements[i]);
+            //    output_file.WriteLine(elements[i].line);
+            //}
+
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+
+            Console.ReadLine();
+        }
+    }
+}

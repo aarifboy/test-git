@@ -1,0 +1,80 @@
+
+using System;
+using System.Collections.Generic;//for string
+using System.IO;//to use StreamReader
+
+namespace lec2csharp
+{
+    class File_element
+    {
+        public string line;
+    };
+    class Program
+    {
+        static void Pullout_contents(string in_file, File_element[] elements)
+        //static void Pullout_contents(string in_file, List<File_element> elements)
+        {
+            StreamReader input_file = new StreamReader(in_file.ToString());
+
+            string line = "";
+            for (int line_no = 0; (line = input_file.ReadLine()) != null; ++line_no)
+            {
+                File_element element = new File_element();
+                element.line = line;
+
+                //elements.Add(element);
+                elements[line_no] = element;
+            }
+        }
+        static void Show_contents(StreamWriter Out, File_element[] elements)
+        //static void Show_contents(StreamWriter Out, List<File_element> elements)
+        {
+            //foreach(File_element iter in elements)
+            //{
+            //    Console.WriteLine(iter.line);
+            //}
+
+            for (int i = 0; i < elements.Length; ++i)
+            {
+                Console.WriteLine(elements[i].line);
+            }
+        }
+        static void Pushin_contents(string out_file, File_element[] elements)
+        //static void Pushin_contents(string out_file, List<File_element> elements)
+        {
+            StreamWriter output_file = new StreamWriter(out_file.ToString());
+            output_file.AutoFlush = true;
+            Console.SetOut(output_file);
+            Show_contents( output_file,  elements);// using polymorphism
+        }
+
+        static void Main(string[] args)
+        {
+            StreamReader input_file = null;
+            StreamWriter output_file = null;
+
+            string in_file="test.txt";
+
+            string out_file="test.txt.out";
+
+            string[] no = File.ReadAllLines(in_file);
+
+            //List<File_element> elements = new List<File_element>();
+            File_element[] elements = new File_element[no.Length];
+            
+
+            Pullout_contents(in_file, elements);
+
+            Show_contents(output_file, elements);
+
+            Pushin_contents(out_file, elements);
+
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+            Console.ReadLine();
+        }
+    }
+}

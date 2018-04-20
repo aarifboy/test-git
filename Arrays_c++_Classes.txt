@@ -1,0 +1,67 @@
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include <vector>   //for vectors
+#include <array>
+
+class file_element
+{
+public:
+	std::string line;
+};
+
+int main(int argc, char *argv[])
+{
+	std::string in_file ="test.txt";
+	std::ifstream input_file(in_file.c_str());
+	std::string out_file = in_file + ".out";
+	std::ofstream output_file(out_file.c_str());
+
+	size_t file_size = sizeof(in_file);
+	std::cout << "in_file with sizeof :"<<file_size << std::endl;
+
+	//std::string elements[sizeof(in_file)];
+	//file_element elements[sizeof(in_file)];
+
+	//std::array <std::string, sizeof(in_file)> elements = { {} };
+	std::array <file_element, sizeof(in_file)> elements = { {} };
+
+	std::string line;
+	for (size_t line_no = 0; std::getline(input_file, line); ++line_no)
+	{
+		file_element element;
+		element.line = line;
+
+		//elements[line_no] = line;
+		elements[line_no] = element;
+	}
+	std::cout <<"line with size :"<< line.size() << std::endl;
+	//std::cout << "elements with size :"<<(*elements).size() << std::endl;
+	std::cout << "elements with size :" << elements.size() << std::endl;
+
+	//for (size_t i = 0; i < line.size(); ++i)
+	for (size_t i = 0; i < file_size; ++i)
+	{
+		//std::cout << elements[i] << std::endl;
+		std::cout << elements[i].line << std::endl;
+		//output_file << elements[i] << std::endl;
+		output_file << elements[i].line << std::endl;
+	}
+
+	//for (size_t i = 0; i <(*elements).size(); ++i)
+	//for (size_t i = 0; i <elements.size(); ++i)
+	//{
+	//	//std::cout << elements[i] << std::endl;
+	//	std::cout << elements[i].line << std::endl;
+	//	//output_file << elements[i] << std::endl;
+	//	output_file << elements[i].line << std::endl;
+	//}
+
+	if (input_file)
+	{
+		input_file.close();
+		output_file.close();
+	}
+	std::cin.get();
+	return 0;
+}
