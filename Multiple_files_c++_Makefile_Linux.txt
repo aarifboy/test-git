@@ -1,0 +1,31 @@
+# This is make file for c++
+#all:
+
+#compile:
+#	g++ *.cpp -o multiplefiles
+#	g++ Source.cpp Source1.cpp -o multiplefiles
+
+#run:
+#	./multiplefiles test.txt
+	
+
+#CXX=g++
+CXXFLAGS=-Wall -g
+	
+all:compile
+
+compile:Source.o Source1.o
+	$(CXX) $(CXXFLAGS) Source.o Source1.o -o multiplefiles
+#	g++ -Wall -g Source.o Source1.o -o multiplefiles
+#	g++ *.o -o multiplefiles
+	
+source.o:Source.cpp
+#	g++ -c Source.cpp
+	$(CXX) -c Source.cpp
+#	@(CXX) -c Source.cpp
+source1.o:Source1.cpp
+#	g++ -c Source1.cpp
+	$(CXX) -c Source1.cpp
+#	@(CXX) -c Source1.cpp
+clean:
+	rm *.o multiplefiles test.txt.out

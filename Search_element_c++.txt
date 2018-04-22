@@ -1,0 +1,103 @@
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include <vector>   //for vectors
+#include<list>  //for lists
+#include<algorithm>
+#include <map>
+
+int main(int argc, char *argv[])
+{
+	std::ifstream input_file("test.txt");
+	std::ofstream output_file("test.txt.out");
+
+	std::string line;
+
+	//for (int line_no = 1; std::getline(input_file, line); ++line_no)
+	//{
+	//	size_t search = line.find(".");
+	//	//size_t search = line.rfind(".");
+	//	//size_t search = line.find_first_of(".");
+	//	if (search != std::string::npos)
+	//	{
+	//		std::cout << "element found at pos: " << search << " in line " <<line << 
+	//			" line_no is "<<line_no << std::endl;
+	//	}
+	//	std::cout << "LINE " << line_no << ":" << line << std::endl;
+	//	output_file << "LINE " << line_no << ":" << line << std::endl;
+	//}
+
+	////std::vector<std::string> elements;
+	//std::list<std::string> elements;
+	//for (int line_no = 1; std::getline(input_file, line); ++line_no)
+	//{
+	//	elements.push_back(line);
+	//}
+
+	////std::vector<std::string>::iterator iter = elements.begin();
+	//std::list<std::string>::iterator iter = elements.begin();
+	//for (; iter != elements.end(); ++iter)
+	//{
+	//	size_t search = (*iter).find(".");
+	//	//size_t search = (*iter).rfind(".");
+	//	//size_t search = (*iter).find_first_of(".");
+	//	if (search != std::string::npos)
+	//	{
+	//		std::cout << "element found at pos: " << search << 
+	//			" in line " << (*iter) << std::endl;
+	//	}
+	//	std::cout << (*iter) << std::endl;
+	//	output_file << (*iter) << std::endl;
+	//}
+
+	//std::string elements[sizeof("test.txt")];
+	//int count = 0;
+	//for (int line_no = 0; std::getline(input_file, line); ++line_no)
+	//{
+	//	elements[line_no] = line;
+	//	++count;
+	//}
+	//for(int line_no=0; line_no < count;++line_no)
+	//{
+	//	size_t search = elements[line_no].find(".");
+	//	//size_t search = elements[line_no].rfind(".");
+	//	//size_t search = elements[line_no].find_first_of(".");
+	//	if (search != std::string::npos)
+	//	{
+	//		std::cout << "element found at pos: " << search <<
+	//			" in line " << elements[line_no] << std::endl;
+	//	}
+	//	std::cout << elements[line_no] << std::endl;
+	//	output_file << elements[line_no] << std::endl;
+	//}
+
+	std::map<std::string, int> elements;
+	for (int line_no = 1; std::getline(input_file, line); ++line_no)
+	{
+		elements.insert(std::make_pair(line, line_no));
+		//elements.insert({line,line_no});
+	}
+
+	std::map<std::string, int>::iterator iter = elements.begin();
+	for (; iter != elements.end(); ++iter)
+	{
+		//size_t search = (*iter).first.find(".");
+		//size_t search = (*iter).first.find_first_of(".");
+		size_t search = (*iter).first.rfind(".");
+		if (search != std::string::npos)
+		{
+			std::cout << "element is at pos: " << search << " found in line " << (*iter).first <<
+				" line_no is: " << (*iter).second << std::endl;
+		}
+		std::cout << "LINE "<<(*iter).second<<" :"<<(*iter).first << std::endl;
+		output_file << "LINE " << (*iter).second << " :" << (*iter).first << std::endl;
+	}
+
+	if (input_file)
+	{
+		input_file.close();
+		output_file.close();
+	}
+	std::cin.get();
+	return 0;
+}
