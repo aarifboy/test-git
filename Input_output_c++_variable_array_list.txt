@@ -1,0 +1,114 @@
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include <vector>
+#include<list>  //for lists
+#include <map>//for map
+
+struct file_element
+{
+	int line_no;
+	std::string line;
+};
+
+//class file_element
+//{
+//public:
+//	int line_no;
+//	std::string line;
+//};
+
+int main(int argc, char *argv[])
+{
+	//int i = 10;
+	//std::string str = "This is Arif ";
+	//char *chr = { "This is Arif" };
+	//std::cout << "int:" << i << "\n" << "string:" << str << "\n" << "char:" << chr;
+
+	//int integer[] = {0};
+	//int integer[100] = { 1 };
+	//std::cout << *integer << std::endl;
+
+	//int integer[] = {0,1,10};
+	//for (int i = 0; i < sizeof(*integer) - 1; ++i) 
+	//{
+	//	std::cout << integer[i] << std::endl;
+	//}
+
+
+	//std::string str[] = { "This is Arif." };
+	//std::string str[100] = { "This is Arif." };
+	//std::cout << *str << std::endl;
+
+	//std::string str[] = { "This","is","Arif","." };
+	//for (int i = 0; i < 4; ++i)
+	//{
+	//	std::cout << str[i] << std::endl;
+	//}
+
+	//char chr[] = { "This is Arif." };
+	//char chr[100] = {"This is Arif."};
+	//std::cout << chr << std::endl;
+
+	//char *chr[] = { "This","is","Arif","." };
+	//for (int i = 0; i< sizeof(*chr); ++i)
+	//{
+	//	std::cout << chr[i] << std::endl;
+	//}
+
+
+	//std::vector<file_element> elements
+	////std::list<file_element> elements
+	//{
+	//	{ 1, "This " },
+	//	{ 1, "is " },
+	//	{ 1, "Arif" },
+	//	{ 1, "." },
+	//	{ 1,"\n" },
+	//	{ 2, "I " },
+	//	{ 2, "work" },
+	//	{2, "."}
+	//};
+	//std::vector<file_element> elements
+	////std::list<file_element> elements
+	//{
+	//	{ 1, "This is Arif." },
+	//	{ 1,"\n" },
+	//	{ 2, "I work." }
+	//};
+
+	//std::vector<file_element>::iterator iter = elements.begin();
+	////std::list<file_element>::iterator iter = elements.begin();
+	//for (; iter != elements.end(); ++iter)
+	//{
+	//	std::cout << (*iter).line;
+	//}
+
+	std::map<char, int> table;
+	std::map<char, int>::iterator h_it = table.begin();
+	table.insert(h_it, std::pair<char, int>('0', 0));
+	table.insert(h_it, std::pair<char, int>('1', 1));
+	table.insert(h_it, std::pair<char, int>('2', 2));
+	table.insert(h_it, std::pair<char, int>('3', 3));
+	table.insert(h_it, std::pair<char, int>('4', 4));
+	table.insert(h_it, std::pair<char, int>('5', 5));
+	table.insert(h_it, std::pair<char, int>('6', 6));
+	table.insert(h_it, std::pair<char, int>('7', 7));
+	table.insert(h_it, std::pair<char, int>('8', 8));
+	table.insert(h_it, std::pair<char, int>('9', 9));
+	table.insert(h_it, std::pair<char, int>('a', 10));
+	table.insert(h_it, std::pair<char, int>('b', 11));
+	table.insert(h_it, std::pair<char, int>('c', 12));
+	table.insert(h_it, std::pair<char, int>('d', 13));
+	table.insert(h_it, std::pair<char, int>('e', 14));
+	table.insert(h_it, std::pair<char, int>('f', 15));
+
+	for (std::map<char, int>::iterator it = table.begin();
+	it != table.end(); it++)
+	{
+		std::cout << "hex:"<<(*it).first << " dec:"<<(*it).second<<std::endl;
+	}
+
+	std::cin.get();
+	return 0;
+}

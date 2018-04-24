@@ -1,0 +1,106 @@
+
+using System;//for Console
+using System.Collections.Generic;//for lists
+using System.IO;//to use StreamReader
+
+namespace lec2csharp
+{
+    struct File_element
+    {
+        public int line_no;
+        public string line;
+    };
+    //class File_element
+    //{
+    //    public int line_no;
+    //    public string line;
+    //};
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //int i = 10;
+            //string str = "This is Arif ";
+            //char chr = 'A';
+            //Console.Write("int:{0} \nstring:{1} \nchar:{2}", i, str, chr);
+
+            //int[] integer = { 0 };
+            //int[] integer = new int[1] { 1 };
+            //int[] integer = { 0, 1, 10 };
+            //for (int i = 0; i < integer.Length; ++i)
+            //{
+            //    Console.WriteLine(integer[i]);
+            //}
+
+            //string[] str = new string[] { "This is Arif." };
+            //string[] str = new string[1] { "This is Arif." };
+            //string[] str = { "This is Arif." };
+            //string[] str = { "This ", "is ", "Arif", ".", "\n", "I ", "work." };
+            //for (int i = 0; i < str.Length; ++i)
+            //{
+            //    Console.Write(str[i]);
+            //}
+
+
+            //char[] chr = new char[4] { 'A', 'r', 'i', 'f' };
+
+            //char[] chr = new char[20];
+            //chr[0] = 'A';chr[1] = 'r';chr[2] = 'i';chr[3] = 'f';
+
+            //char[] chr = new char[20];
+            //chr[0] = 'T'; chr[1] = 'h'; chr[2] = 'i'; chr[3] = 's'; chr[4] = ' ';
+            //chr[5] = 'i'; chr[6] = 's'; chr[7] = ' ';
+            //chr[8] = 'A'; chr[9] = 'r'; chr[10] = 'i'; chr[11] = 'f';
+
+            //Console.Write(chr);
+
+            //List<File_element> elements = new List<File_element>()
+            //{
+            //    new File_element{line_no= 1,line="This "},
+            //    new File_element{line_no= 1,line="is "},
+            //    new File_element{line_no= 1,line="Arif"},
+            //    new File_element{line_no= 1,line=". "},
+            //    new File_element{line_no= 1,line="\n"},
+            //    new File_element{line_no= 2,line="I "},
+            //    new File_element{line_no= 2,line="work"},
+            //    new File_element{line_no= 2,line="."}
+            //};
+            //List<File_element> elements = new List<File_element>()
+            //{
+            //    new File_element{line_no= 1,line="This is Arif."},
+            //    new File_element{line_no= 1,line="\n"},
+            //    new File_element{line_no= 2,line="I work."}
+            //};
+            //foreach (File_element iter in elements)
+            //{
+            //    Console.Write(iter.line);
+            //}
+
+            List<Tuple<char, int>> table = new List<Tuple<char, int>>();
+            table.Add(new Tuple<char, int>('0', 0));
+            table.Add(new Tuple<char, int>('1', 1));
+            table.Add(new Tuple<char, int>('2', 2));
+            table.Add(new Tuple<char, int>('3', 3));
+            table.Add(new Tuple<char, int>('4', 4));
+            table.Add(new Tuple<char, int>('5', 5));
+            table.Add(new Tuple<char, int>('6', 6));
+            table.Add(new Tuple<char, int>('7', 7));
+            table.Add(new Tuple<char, int>('8', 8));
+            table.Add(new Tuple<char, int>('9', 9));
+            table.Add(new Tuple<char, int>('a', 10));
+            table.Add(new Tuple<char, int>('b', 11));
+            table.Add(new Tuple<char, int>('c', 12));
+            table.Add(new Tuple<char, int>('d', 13));
+            table.Add(new Tuple<char, int>('e', 14)); ;
+            table.Add(new Tuple<char, int>('f', 15));
+
+            foreach (Tuple<char, int> it in table)
+            {
+                Console.WriteLine("hex:{0} dec:{1}", it.Item1, it.Item2);
+
+            }
+
+            Console.ReadLine();
+        }
+    }
+}

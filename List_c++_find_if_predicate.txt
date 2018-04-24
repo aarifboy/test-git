@@ -1,0 +1,82 @@
+
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include <vector>   //for vectors
+#include<list>  //for lists
+#include<algorithm>
+#include <map>
+
+bool element_fullstop(const std::string &element)
+{
+	if (!(element == "."))
+	{
+		return false; //predicate is a function that returns a boolean value.
+	}
+	return true;
+}
+
+int main(int argc, char *argv[])
+{
+	std::ifstream input_file("test.txt");
+	std::ofstream output_file("test.txt.out");
+
+	std::string line;
+
+	std::list<std::string> elements;
+	std::list<std::string> arrange;
+
+	for (int line_no = 1; std::getline(input_file, line); ++line_no)
+	{
+		for (size_t i = 0; i < line.size(); i++)
+		{
+			elements.push_back(std::string(1, line[i]));
+		}
+		//elements.push_back(line);
+	}
+
+	std::list<std::string>::iterator iter = elements.begin();
+	for (; iter != elements.end(); ++iter)
+	{
+		std::cout << (*iter);
+		output_file << (*iter); 
+	}
+
+	std::list<std::string>::iterator stop = std::find_if(elements.begin(),
+		elements.end(), element_fullstop);
+	if (stop == elements.end())
+	{
+		std::cout << "element . not found" << std::endl;
+	}
+	++stop;
+
+	arrange.splice(arrange.begin(), elements, elements.begin(), stop);
+
+	std::cout << std::endl;
+	std::cout << "picked up data for arrange:" << std::endl;
+
+	std::list<std::string>::iterator it = arrange.begin();
+	for (; it != arrange.end(); ++it)
+	{
+		std::cout << (*it);
+		output_file << (*it);
+	}
+
+	std::cout << std::endl;
+	std::cout << "left over data in elements:" << std::endl;
+
+	std::list<std::string>::iterator r_it = elements.begin();
+	for (; iter != elements.end(); ++iter)
+	{
+		std::cout << (*r_it);
+		output_file << (*r_it);
+	}
+
+	if (input_file)
+	{
+		input_file.close();
+		output_file.close();
+	}
+	std::cin.get();
+	return 0;
+}
