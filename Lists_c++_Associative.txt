@@ -1,0 +1,59 @@
+
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include<list>  //for lists
+#include <map>//for map
+
+int main(int argc, char *argv[])
+{
+	std::ifstream input_file("test.txt");
+	std::ofstream output_file("test.txt.out");
+
+	std::string line;
+	
+	//std::list<std::string> elements;//sequence
+
+	typedef std::pair<std::string, int> file_element;
+	std::list<file_element> elements;//associative
+
+	//std::map<std::string, int> elements;//associative
+
+	for (int line_no = 1; std::getline(input_file, line); ++line_no)
+	{
+		//elements.push_back(line);
+
+		elements.push_back(std::make_pair(line, line_no));		
+		//elements.push_back({ line, line_no });
+
+		//elements.insert(std::make_pair(line, line_no));
+		//elements.insert({ line, line_no });
+	}
+
+	//int line_no = 1;
+	//std::list<std::string>::iterator iter = elements.begin();
+	//for (; iter != elements.end(); ++iter)
+	//{
+	//	std::cout << "LINE " << line_no << ":" << *iter << std::endl;
+	//	output_file << "LINE " << line_no << ":" << *iter << std::endl;
+	//	++line_no;
+	//}
+
+	std::list<file_element>::iterator iter = elements.begin();
+	//std::map<std::string, int>::iterator iter = elements.begin();
+	for(;	iter != elements.end(); iter++)
+	{
+		std::cout << "LINE " << (*iter).second << ":" << (*iter).first << std::endl;
+		output_file << "LINE " << (*iter).second << ":" << (*iter).first << std::endl;
+	}
+
+	if (input_file)
+	{
+		input_file.close();
+		output_file.close();
+	}
+
+	std::cin.get();
+	return 0;
+}
+

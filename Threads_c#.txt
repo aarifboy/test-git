@@ -1,0 +1,88 @@
+
+using System;
+using System.Collections.Generic;//for string
+using System.IO;//to use StreamReader
+using System.Threading;// for threads
+
+namespace lec2csharp
+{
+    class Program
+    {
+        static void Pullout_contents(string in_file, ref List<string> elements)
+        {
+            StreamReader input_file = new StreamReader(in_file.ToString());
+            elements.Clear();
+            
+            string line = "";
+            for (int line_no = 1; (line = input_file.ReadLine()) != null; ++line_no)
+            {
+                elements.Add(line);
+            }
+        }
+
+        static void Show_contents(StreamWriter Out, List<string> elements)
+        {
+            foreach (string iter in elements)
+            {
+                Console.WriteLine(iter);
+            }
+        }
+
+        static void Pushin_contents(string out_file, List<string> elements)
+        {
+            StreamWriter output_file = new StreamWriter(out_file.ToString());
+            output_file.AutoFlush = true;
+            Console.SetOut(output_file);
+            Show_contents(output_file, elements);// using polymorphism
+        }
+
+        static void Main(string[] args)
+        {
+            StreamReader input_file = null;
+            StreamWriter output_file = null;
+
+            string in_file;
+            in_file = "test.txt";
+
+            string out_file;
+            out_file = in_file + ".out";
+
+            List<string> elements = new List<string>();
+            elements.Clear();
+
+            //Pullout_contents(in_file, ref elements);
+            //new Thread(delegate ()
+            //{
+            //    Pullout_contents(in_file, ref elements);
+            //}).Start();
+
+            ThreadStart oc = delegate ()
+            {
+                Pullout_contents(in_file, ref elements);
+            };
+            new Thread(oc).Start();
+
+
+            //Show_contents(output_file, elements);
+            ThreadStart sc = delegate ()
+            {
+                Show_contents(output_file, elements);
+            };
+            new Thread(sc).Start();
+
+            //Pushin_contents(out_file, elements);
+            ThreadStart ic = delegate ()
+            {
+                Pushin_contents(out_file, elements);
+            };
+            new Thread(ic).Start();
+
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+            Console.ReadLine();
+        }
+    }
+}

@@ -1,0 +1,128 @@
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include <list>  //for lists
+#include <thread>
+
+void pullout_contents(std::string infile, std::list<std::string> &element)
+{
+	std::ifstream input_file(infile.c_str());
+	element.clear();
+
+	std::string line;
+	for (int line_no = 1; std::getline(input_file, line); ++line_no)
+	{
+		element.push_back(line);
+	}
+	input_file.close();
+}
+
+void show_contents(std::ostream *out, const std::list<std::string> element)
+{
+	std::list<std::string>::const_iterator iter = element.begin();
+	for (; iter != element.end(); ++iter)
+	{
+		(*out) << (*iter) << std::endl;
+	}
+}
+
+void pushin_contents(std::string outfile, const std::list<std::string> element)
+{
+	std::ofstream output_file(outfile.c_str());
+
+	show_contents(&output_file, element);// using polymorphism
+	output_file.close();
+}
+
+
+int main(int argc, char *argv[])
+{
+	std::string in_file;
+	in_file = "test.txt";
+
+	std::string out_file;
+	out_file = in_file + ".out";
+
+	std::list<std::string> elements;
+
+	//pullout_contents(in_file, ref(elements));
+	//std::thread oc{pullout_contents,in_file,ref (elements)};
+	//oc.join();//necessary
+
+	//std::thread oc{ [](std::string infile, std::list<std::string> &element) 
+	//{
+	//	std::ifstream input_file(infile.c_str());
+	//	element.clear();
+
+	//	std::string line;
+	//	for (int line_no = 1; std::getline(input_file, line); ++line_no)
+	//	{
+	//		element.push_back(line);
+	//	}
+	//	input_file.close();
+	//},in_file,ref(elements) };
+	//oc.join();//necessary
+
+	std::thread oc{ [&]()
+	{
+		std::ifstream input_file(in_file.c_str());
+		elements.clear();
+
+		std::string line;
+		for (int line_no = 1; std::getline(input_file, line); ++line_no)
+		{
+			elements.push_back(line);
+		}
+		input_file.close();
+	}};
+	oc.join();//necessary
+
+	//show_contents(&std::cout, elements);
+	//std::thread sc{show_contents,&std::cout,elements};
+	//sc.join();//not necessary
+
+	//std::thread sc{ [](std::ostream *out, const std::list<std::string> element) 
+	//{
+	//	std::list<std::string>::const_iterator iter = element.begin();
+	//	for (; iter != element.end(); ++iter)
+	//	{
+	//		(*out) << (*iter) << std::endl;
+	//	}
+	//},&std::cout,elements };
+	//sc.join();//not necessary
+
+	std::thread sc{ [=]()
+	{
+		std::list<std::string>::const_iterator iter = elements.begin();
+		for (; iter != elements.end(); ++iter)
+		{
+			std::cout << (*iter) << std::endl;
+		}
+	} };
+	sc.join();
+
+	//pushin_contents(out_file, elements);
+	//std::thread ic{pushin_contents,out_file,elements};
+	//ic.join();//not necessary
+
+	//std::thread ic{ [](std::string outfile, const std::list<std::string> element)
+	//{
+	//	std::ofstream output_file(outfile.c_str());
+
+	//	show_contents(&output_file,element);
+	//	output_file.close();
+	//},out_file,elements };
+	//ic.join();//not necessary
+
+	std::thread ic{ [=]()
+	{
+		std::ofstream output_file(out_file.c_str());
+
+		show_contents(&output_file,elements);
+		output_file.close();
+	}};
+	ic.join();//not necessary
+
+	std::cin.get();
+	return 0;
+}
