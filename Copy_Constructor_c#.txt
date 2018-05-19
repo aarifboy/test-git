@@ -1,0 +1,109 @@
+
+
+using System;//for Console
+using System.Collections.Generic;//for lists
+using System.IO;//to use StreamReader
+
+namespace lec2csharp
+{
+    class File_element
+    {
+        public string line;
+        public int line_no;
+        //internal string line;
+        //internal int line_no;
+
+        internal File_element() { }//default constructor
+
+        //public File_element(File_element p)//copy constructor
+        //{
+        //    line = p.line;
+        //    line_no = p.line_no;
+        //}
+
+        public File_element(string l, int n)//constructor needed for copy constructor below only
+        {
+            //line_no = n;
+            //line = l;
+            (this).line_no = n;
+            (this).line = l;
+        }
+
+        public File_element(File_element P)//copy contructor
+            : this(P.line, P.line_no)
+        {
+        }
+
+        public void Set_(string l, int n)
+        {
+            //line_no = n;
+            //line = l;
+            this.line_no = n;
+            this.line = l;
+        }
+        public string Get_line()
+        {
+            //return line;
+            return this.line;
+        }
+
+        public int Get_line_no()
+        {
+            //return line_no;
+            return this.line_no;
+        }
+    };
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            StreamReader input_file = null;
+            input_file = new StreamReader("test.txt");
+
+            StreamWriter output_file = new StreamWriter("test.txt.out");
+
+            string line = "";
+
+            List<File_element> elements,contents;
+            elements = new List<File_element>();
+            contents = new List<File_element>();
+            for (int line_no = 1; (line = input_file.ReadLine()) != null; ++line_no)
+            {
+                File_element element = new File_element();
+                element.line = line;
+                element.line_no = line_no;
+                //File_element content = element;//copy
+                File_element content = new File_element(element);//copy
+
+                string s = line + "change";
+                int i = line_no + 6;
+
+                element.Set_(s,i);
+                //content.Set_(s, i);
+                elements.Add(element);
+                contents.Add(content);
+            }
+
+            foreach (File_element iter in elements)
+            {
+                Console.WriteLine("{0}: {1}", iter.Get_line_no(), iter.Get_line());
+                output_file.WriteLine("{0}: {1}", iter.Get_line_no(), iter.Get_line());
+            }
+
+            foreach (File_element iter in contents)
+            {
+                Console.WriteLine("{0}: {1}", iter.Get_line_no(), iter.Get_line());
+                output_file.WriteLine("{0}: {1}", iter.Get_line_no(), iter.Get_line());
+            }
+
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+
+            Console.ReadLine();
+        }
+    }
+}
+

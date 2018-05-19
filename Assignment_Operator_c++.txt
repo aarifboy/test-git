@@ -1,0 +1,129 @@
+
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include <vector>   //for vectors
+#include<list>  //for lists
+
+class file_element
+{
+//public:
+	//int line_no;
+	//std::string line;
+	int *line_no;
+	std::string *line;
+
+public:
+	file_element(){}//default constructor
+
+	file_element(std::string l,int n)//constructor
+	{
+		//line_no = (n);
+		//line = (l);
+		//this->line_no = n;
+		//this->line = l;
+
+		line_no = new int(n);
+		line = new std::string(l);//works
+		//this->line_no = new int (n);
+		//this->line = new std::string(l);
+	}
+
+	file_element& operator =(const file_element &p)//assignment operator
+	{
+		//line_no = new int(*p.line_no);
+		//line = new std::string(*p.line);
+		if (this != &p) 
+		{
+			line_no = new int(*p.line_no);
+			line = new std::string(*p.line);
+		}
+
+		return *this;
+	}
+
+	void set_(std::string l, int n)
+	{
+		//line_no = n;
+		//line = l;
+		//(*this).line_no = n;
+		//(*this).line = l;
+
+		*line_no = n;
+		*line =  l;
+		//*(*this).line_no = n;
+		//*(*this).line = l;
+	}
+
+	std::string get_line()
+	{
+		//return line;
+		//return this->line;
+
+		return *line;
+		//return *this->line;
+	}
+
+	int get_line_no()
+	{
+		//return line_no;
+		//return this->line_no;
+
+		return *line_no;
+		//return *this->line_no;
+	}
+};
+
+int main(int argc, char *argv[])
+{
+	std::ifstream input_file;
+	input_file.open("test.txt");
+
+	std::ofstream output_file("test.txt.out");
+
+	std::string line;
+
+	std::list<file_element> elements,contents;
+
+	for (int line_no = 1; std::getline(input_file, line); ++line_no)
+	{
+
+		file_element element(line,line_no);
+
+		//file_element content=element;//copy
+		file_element content;
+		content = element;//assigment
+
+		std::string s = line + "change";
+		int i = line_no + 6;
+
+		element.set_(s,i);
+		//content.set_(s,i);
+
+		elements.push_back(element);
+		contents.push_back(content);
+	}
+	std::cout << "elements with element objects:" << std::endl;
+	std::list<file_element>::iterator iter = elements.begin();
+	for (; iter != elements.end(); ++iter)
+	{
+		std::cout << (*iter).get_line_no() << ": " << (*iter).get_line() << std::endl;
+		output_file << (*iter).get_line_no() << ": " << (*iter).get_line() << std::endl;
+	}
+	std::cout << std::endl;
+	std::cout << "contents with content objects:" << std::endl;
+	std::list<file_element>::iterator it = contents.begin();
+	for (; it != contents.end(); ++it)
+	{		
+		std::cout << (*it).get_line_no() << ": " << (*it).get_line() << std::endl;
+		output_file << (*it).get_line_no() << ": " << (*it).get_line() << std::endl;
+	}
+
+	if (input_file)
+	{
+		input_file.close();
+		output_file.close();
+	}
+	std::cin.get();
+	return 0;
+}
