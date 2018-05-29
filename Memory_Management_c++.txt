@@ -1,0 +1,59 @@
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include <vector>   //for vectors
+#include<list>  //for lists
+#include<memory>
+class file_element
+{
+public:
+	//int line_no;
+	//std::string line;
+	int *line_no;
+	std::string *line;
+};
+
+int main(int argc, char *argv[])
+{
+	std::ifstream input_file;
+	input_file.open("test.txt");
+
+	std::ofstream output_file("test.txt.out");
+
+	std::string line;
+
+	std::list<file_element> elements;
+
+	file_element element;
+
+	for (int line_no = 1; std::getline(input_file, line); ++line_no)
+	{
+		//element.line = line;
+		//element.line_no = line_no;
+		element.line = new std::string (line);
+		element.line_no = new int (line_no);
+
+		elements.push_back(element);
+	}
+
+	std::list<file_element>::iterator iter = elements.begin();
+	for (; iter != elements.end(); ++iter)
+	{
+		//std::cout << (*iter).line_no << ": " << (*iter).line << std::endl;
+		//output_file << (*iter).line_no << ": " << (*iter).line << std::endl;
+		std::cout << *(*iter).line_no << ": " << *(*iter).line << std::endl;
+		output_file << *(*iter).line_no << ": " << *(*iter).line << std::endl;
+	}
+
+	delete element.line;
+	delete element.line_no;
+
+	if (input_file)
+	{
+		input_file.close();
+		output_file.close();
+	}
+
+	std::cin.get();
+	return 0;
+}

@@ -1,0 +1,80 @@
+
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include <vector>   //for vectors
+#include<list>  //for lists
+
+class file_element
+{
+	//int line_no;
+	//std::string line;
+	int *line_no;
+	std::string *line;
+public:
+
+	//file_element(std::string l, int n) :line(l), line_no(n)
+	file_element(std::string l, int n) :line(new std::string(l)),line_no(new int (n))
+	{
+		std::cout << "Constructor" << std::endl;
+	}
+
+	std::string get_line()
+	{
+		//return line;
+		return *line;
+	}
+
+	int get_line_no()
+	{
+		//return line_no;
+		return *line_no;
+	}
+
+	~file_element()
+	{
+		if (line == nullptr)
+		{
+			delete line;
+		}
+		if (line_no == NULL)
+		{
+			delete line_no;
+		}
+		std::cout << "Destructor" << std::endl;
+	}
+};
+
+int main(int argc, char *argv[])
+{
+	std::ifstream input_file;
+	input_file.open("test.txt");
+
+	std::ofstream output_file("test.txt.out");
+
+	std::string line;
+
+	std::list<file_element> elements;
+
+	for (int line_no = 1; std::getline(input_file, line); ++line_no)
+	{
+		//file_element element(line,line_no);
+		file_element element = file_element(line, line_no);
+		elements.push_back(element);
+	}
+
+	std::list<file_element>::iterator iter = elements.begin();
+	for (; iter != elements.end(); ++iter)
+	{
+		std::cout << (*iter).get_line_no() << ": " << (*iter).get_line() << std::endl;
+		output_file << (*iter).get_line_no() << ": " << (*iter).get_line() << std::endl;
+	}
+
+	if (input_file)
+	{
+		input_file.close();
+		output_file.close();
+	}
+	std::cin.get();
+	return 0;
+}

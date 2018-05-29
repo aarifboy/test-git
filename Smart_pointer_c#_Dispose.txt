@@ -1,0 +1,81 @@
+
+using System;//for Console
+using System.Collections.Generic;//for lists
+using System.IO;//to use StreamReader
+
+namespace lec2csharp
+{
+    class File_element
+    {
+        internal string line;
+        internal int line_no;
+        public void Dispose()
+        {
+            if (line != null)
+            {
+                line = null;
+            }
+            if (line_no != 0)
+            {
+                line_no = 0;
+            }
+        }
+    };
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            StreamReader input_file = null;
+            input_file = new StreamReader("test.txt");
+
+            StreamWriter output_file = new StreamWriter("test.txt.out");
+
+            string line = "";
+
+            List<File_element> elements = new List<File_element>();
+            List<File_element> contents = new List<File_element>();
+
+            File_element element;
+            File_element content;
+
+            for (int line_no = 1; (line = input_file.ReadLine()) != null; ++line_no)
+            {
+                element = new File_element();
+                content = new File_element();
+                element.line = line;
+                element.line_no = line_no;
+
+                content = element;
+
+                elements.Add(element);
+                contents.Add(content);
+
+                //element.Dispose();
+                content.Dispose();
+            }
+            Console.WriteLine("elements");
+            foreach (File_element iter in elements)
+            {
+                Console.WriteLine("{0}: {1}", iter.line_no, iter.line);
+                output_file.WriteLine("{0}: {1}", iter.line_no, iter.line);
+            }
+            Console.WriteLine("contents");
+            foreach (File_element iter in contents)
+            {
+                Console.WriteLine("{0}: {1}", iter.line_no, iter.line);
+                output_file.WriteLine("{0}: {1}", iter.line_no, iter.line);
+            }
+
+            element = null;
+            //content = null;
+            GC.Collect();
+
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+            Console.ReadLine();
+        }
+    }
+}

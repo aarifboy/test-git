@@ -1,0 +1,102 @@
+using System;//for Console
+using System.Collections.Generic;//for lists
+using System.IO;//to use StreamReader
+//using System.Linq;
+//using System.Text;
+
+namespace lec2csharp
+{
+    class File_element:IDisposable
+    //class File_element
+    {
+        string line;
+        int line_no;
+
+        public File_element(string l, int n)//constructor
+        {
+            line_no = n;
+            line = l;
+            Console.WriteLine("Constructor");
+        }
+
+        public string Get_line()
+        {
+            return line;
+        }
+
+        public int Get_line_no()
+        {
+            return line_no;
+        }
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+            if (line != null)
+            {
+                line = null;
+            }
+            if (line_no != 0)
+            {
+                line_no = 0;
+            }
+            Console.WriteLine("Dispose");
+        }
+
+        ~File_element()
+        {
+            //Dispose();
+            if (line != null)
+            {
+                line = null;
+            }
+            if (line_no != 0)
+            {
+                line_no = 0;
+            }
+            Console.WriteLine("Destructor/Finalize");
+        }
+    };
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            StreamReader input_file = null;
+            input_file = new StreamReader("test.txt");
+
+            StreamWriter output_file = new StreamWriter("test.txt.out");
+
+            string line = "";
+
+            List<File_element> elements = new List<File_element>();
+
+            for (int line_no = 1; (line = input_file.ReadLine()) != null; ++line_no)
+            {
+                //using (File_element element = new File_element(line, line_no))
+                //{
+                //    elements.Add(element);
+                //}
+                File_element element = new File_element(line, line_no);
+                elements.Add(element);
+                //element.Dispose();
+            }
+
+
+            foreach (File_element iter in elements)
+            {
+                Console.WriteLine("{0}: {1}", iter.Get_line_no(), iter.Get_line());
+                output_file.WriteLine("{0}: {1}", iter.Get_line_no(), iter.Get_line());
+            }
+
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+
+            //elements = null;
+            //GC.Collect();//to force garbage colection
+            Console.ReadLine();
+        }
+    }
+}
