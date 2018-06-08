@@ -1,0 +1,99 @@
+
+using System;//for Console
+using System.Collections.Generic;//for lists
+using System.IO;//to use StreamReader
+
+namespace lec2csharp
+{
+    class File_element
+    {
+        string line;
+        int line_no;
+
+        public File_element(string l, int n)//constructor
+        {
+            line_no = n;
+            line = l;
+        }
+
+        public string Get_line()
+        {
+            return line;
+        }
+
+        public int Get_line_no()
+        {
+            return line_no;
+        }
+    };
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            StreamReader input_file = null;
+            input_file = new StreamReader("test.txt");
+
+            StreamWriter output_file = new StreamWriter("test.txt.out");
+
+            string line = "";
+
+            List<File_element> elements = new List<File_element>();
+            List<File_element> contents = new List<File_element>();
+            //List<WeakReference<File_element>> contents = new List<WeakReference<File_element>>();
+
+            for (int line_no = 1; (line = input_file.ReadLine()) != null; ++line_no)
+            {
+                //File_element element = new File_element(line, line_no);
+                WeakReference element = new WeakReference(new File_element(line, line_no));
+
+                //File_element content = element;//copy
+                ///WeakReference<File_element> content = new WeakReference<File_element>(element);
+                //File_element content =  element.Target as File_element;
+                if (element.IsAlive)
+                    contents.Add(element.Target as File_element);
+                else
+                    Console.WriteLine("Object expierd");
+                //elements.Add(element);
+                //contents.Add(content);
+                //if (content != null)
+                //    contents.Add(content);
+                //else
+                //    Console.WriteLine("Object expired");
+            }
+            //Console.WriteLine("elements:");
+            //foreach (File_element iter in elements)
+            //{
+            //    Console.WriteLine("{0}: {1}", iter.Get_line_no(), iter.Get_line());
+            //    output_file.WriteLine("{0}: {1}", iter.Get_line_no(), iter.Get_line());
+            //}
+            Console.WriteLine("contents:");
+            foreach (File_element iter in contents)
+            {
+                Console.WriteLine("{0}: {1}", iter.Get_line_no(), iter.Get_line());
+                output_file.WriteLine("{0}: {1}", iter.Get_line_no(), iter.Get_line());
+            }
+            //Console.WriteLine("contents:");
+            //foreach (WeakReference<File_element> weak in contents)
+            //{
+            //    if (weak.TryGetTarget(out File_element iter))
+            //    {
+            //        Console.WriteLine("{0}: {1}", iter.Get_line_no(), iter.Get_line());
+            //        output_file.WriteLine("{0}: {1}", iter.Get_line_no(), iter.Get_line());
+            //    }
+            //    else
+            //        Console.WriteLine("Object Expired");
+            //}
+            elements = null;
+            contents = null;
+            GC.Collect();
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+
+            Console.ReadLine();
+        }
+    }
+}

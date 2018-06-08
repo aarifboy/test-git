@@ -1,0 +1,90 @@
+
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include <vector>   //for vectors
+#include<list>  //for lists
+#include<memory>
+
+class file_element
+{
+	int line_no;
+	std::string line;
+public:
+	//file_element() {}
+
+	file_element(std::string l, int n)
+	{
+		line = l;
+		line_no = n;
+	}
+
+	std::string get_line()
+	{
+		return line;
+	}
+
+	int get_line_no()
+	{
+		return line_no;
+	}
+};
+
+int main(int argc, char *argv[])
+{
+	std::ifstream input_file;
+	input_file.open("test.txt");
+
+	std::ofstream output_file("test.txt.out");
+
+	std::string line;
+
+	std::list<file_element> elements;
+	std::list< file_element> contents;
+
+	for (int line_no = 1; std::getline(input_file, line); ++line_no)
+	{
+		//file_element *element(new file_element (line, line_no));
+		//file_element *element = new file_element(line, line_no);
+		//std::shared_ptr<file_element> element(new file_element(line,line_no));
+		//std::shared_ptr<file_element> element = std::make_shared<file_element>(line, line_no);
+		std::unique_ptr<file_element> element(new file_element(line,line_no));
+		//std::unique_ptr<file_element> element= std::make_unique<file_element>(line, line_no);
+
+		//file_element *content = element;//copy
+		//std::shared_ptr<file_element> content = element;//can be copied
+		//std::weak_ptr<file_element> content = element;//copy
+		//std::unique_ptr<file_element> content = element;//no copy
+
+		(elements).push_back(*element);
+		//(contents).push_back(*content);
+		//if (content.lock())
+		//	(contents).push_back(*content.lock());//for weak_ptr
+		//else
+		//	std::cout << "object expired" << std::endl;
+		//delete element;
+		//delete content;
+	}
+	std::cout << "elements:" << std::endl;
+	std::list<file_element>::iterator iter = elements.begin();
+	for (; iter != elements.end(); ++iter)
+	{
+		std::cout << (*iter).get_line_no() << ": " << (*iter).get_line() << std::endl;
+		output_file << (*iter).get_line_no() << ": " << (*iter).get_line() << std::endl;
+	}
+	//std::cout << "contents:" << std::endl;
+	//std::list<file_element>::iterator it = contents.begin();
+	//for (; it != contents.end(); ++it)
+	//{
+	//	std::cout << (*it).get_line_no() << ": " << (*it).get_line() << std::endl;
+	//	output_file << (*it).get_line_no() << ": " << (*it).get_line() << std::endl;
+	//}
+
+	if (input_file)
+	{
+		input_file.close();
+		output_file.close();
+	}
+	std::cin.get();
+	return 0;
+}
