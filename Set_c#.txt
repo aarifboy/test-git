@@ -1,0 +1,41 @@
+
+using System;
+using System.Collections.Generic;//for string, lists, HashSet and SortedSet
+using System.IO;//to use StreamReader
+
+namespace lec2csharp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            StreamReader input_file = new StreamReader("test.txt");
+            StreamWriter output_file = new StreamWriter("test.txt.out");
+
+            //List<string> elements = new List<string>();
+            //HashSet<string> elements = new HashSet<string>();
+            SortedSet<string> elements = new SortedSet<string>();
+
+            string line = "";
+
+            for (int line_no = 1; (line = input_file.ReadLine()) != null; ++line_no)
+            {
+                elements.Add(line);
+            }
+
+            foreach (string iter in elements)
+            {
+                Console.WriteLine(iter);
+                output_file.WriteLine(iter);
+            }
+
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+
+            Console.ReadLine();
+        }
+    }
+}
