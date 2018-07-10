@@ -1,0 +1,70 @@
+
+using System;//for Console
+using System.Collections.Generic;//for lists
+using System.IO;//to use StreamReader
+
+namespace lec2csharp
+{
+    class Program
+    {
+        static bool ElementFullstop(string element)
+        {
+            if (!(element == "."))
+            {
+                return false;
+            }
+            return true;
+        }
+        static void Main(string[] args)
+        {
+            StreamReader input_file = new StreamReader("test.txt");
+            StreamWriter output_file = new StreamWriter("test.txt.out");
+
+            List<string> elements = new List<string>();
+            List<string> arrange = new List<string>();
+
+            string line = "";
+            for (int line_no = 1; (line = input_file.ReadLine()) != null; ++line_no)
+            {
+                for (int i = 0; i < line.Length; i++)
+                {
+                    elements.Add(Char.ToString(line[i]));
+                }
+                //elements.Add(line);
+            }
+
+            foreach (string iter in elements)
+            {
+                Console.Write(iter);
+                output_file.Write(iter);
+            }
+
+            int stop = elements.FindIndex(0, elements.Count, ElementFullstop);
+            if (stop == elements.Count)
+            {
+                Console.WriteLine("element . not found");
+            }
+            ++stop;
+            //arrange.InsertRange(0, elements.GetRange(0, stop));
+            arrange.AddRange(elements.GetRange(0, stop));
+            elements.RemoveRange(0, stop);
+
+            Console.WriteLine();
+            Console.WriteLine("picked up data for arrange: ");
+
+            foreach (string iter in arrange)
+            {
+                Console.Write(iter);
+                output_file.Write(iter);
+            }
+
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+
+            Console.ReadLine();
+        }
+    }
+}
