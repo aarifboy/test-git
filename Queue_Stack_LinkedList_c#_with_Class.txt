@@ -1,0 +1,69 @@
+
+using System;//for Console
+using System.Collections.Generic;//for lists
+using System.IO;//to use StreamReader
+
+namespace lec2csharp
+{
+    class File_element
+    {
+        //public string line;
+        public string line = "";
+    };
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            StreamReader input_file = null;
+            input_file = new StreamReader("test.txt");
+
+            StreamWriter output_file = new StreamWriter("test.txt.out");
+
+            //List<File_element> elements = new List<File_element>();
+            //Queue<File_element> elements = new Queue<File_element>();
+            //Stack<File_element> elements = new Stack<File_element>();
+            LinkedList<File_element> elements = new LinkedList<File_element>();
+
+            string line = "";
+            for (int line_no = 1; (line = input_file.ReadLine()) != null; ++line_no)
+            {
+                File_element element = new File_element();
+                element.line = line;
+                //File_element element = new File_element
+                //{
+                //    line = line
+                //};
+                //elements.Add(element);//for List
+                //elements.Enqueue(element);//for Queue
+                //elements.Push(element);//for Stack
+                elements.AddLast(element);//for LinkedList
+            }
+
+            foreach (File_element iter in elements)
+            {
+                Console.WriteLine(iter.line);//for all
+                output_file.WriteLine(iter.line);//for all
+            }
+
+            //while (elements.Count != 0)
+            //{
+            //    //Console.WriteLine(elements.Peek().line);//for queue and stack
+            //    //output_file.WriteLine(elements.Peek().line);
+            //    Console.WriteLine(elements.First.Value.line);//for LinkedList
+            //    output_file.WriteLine(elements.First.Value.line);
+            //    //elements.Dequeue();//for queue
+            //    //elements.Pop();//for stack
+            //    elements.RemoveFirst();//for LinkedList
+            //}
+
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+
+            Console.ReadLine();
+        }
+    }
+}
+

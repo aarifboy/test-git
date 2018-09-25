@@ -1,0 +1,72 @@
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include<list>  //for lists
+#include <queue> // for queue
+#include<stack>  //for stack
+//#include<deque>  //for deque
+
+class file_element
+{
+public:
+	std::string line;
+	//std::string line = "";
+};
+
+int main(int argc, char *argv[])
+{
+	std::ifstream input_file;
+	input_file.open("test.txt");
+
+	std::ofstream output_file("test.txt.out");
+
+	std::list<file_element> elements;
+	//std::queue<file_element*> elements;
+	//std::stack<file_element*> elements;
+	//std::deque<file_element*> elements;
+
+	std::string line;
+	for (int line_no = 1; std::getline(input_file, line); ++line_no)
+	{
+		file_element element;//for list only
+		element.line = line;
+		//file_element *element = new file_element();//for queue,stack and deque
+		//(*element).line = line;
+		//file_element *element = new file_element
+		//{
+		//	line = line
+		//};//for queue,stack and deque
+		elements.push_back(element);//for list and deque
+		//elements.push(element);//for queue and stack
+	}
+
+	////std::list<file_element>::iterator iter = elements.begin();
+	//std::deque<file_element*>::iterator iter = elements.begin();
+	//for (; iter != elements.end(); ++iter)
+	//{
+	//	//std::cout << (*iter).line << std::endl;//for list only
+	//	//output_file << (*iter).line << std::endl;
+	//	std::cout <<  (*(*iter)).line  << std::endl;//for deque only
+	//	output_file << (*(*iter)).line << std::endl; 
+	//}
+
+	while (!elements.empty())
+	{
+		std::cout << (elements).front().line << std::endl;//for list only
+		output_file << elements.front().line << std::endl;
+		//std::cout << elements.front()->line << std::endl;//for queue and deque
+		//output_file << elements.front()->line << std::endl;
+		//std::cout << elements.top()->line << std::endl;//for stack only
+		//output_file << elements.top()->line << std::endl;
+		//elements.pop();//for queue and stack
+		elements.pop_front();//for deque and list
+	}
+
+	if (input_file)
+	{
+		input_file.close();
+		output_file.close();
+	}
+	std::cin.get();
+	return 0;
+}
