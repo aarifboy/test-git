@@ -1,0 +1,43 @@
+
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include<list>  //for lists
+
+int main(int argc, char *argv[])
+{
+	std::ifstream input_file("test.txt");
+	std::ofstream output_file("test.txt.out");	
+
+	std::list<std::string> elements;
+	//std::list<char> elements;
+	elements.clear();
+
+	std::string line;
+	for (; std::getline(input_file, line);)
+	{		
+		for (size_t i = 0; i < line.size(); i++)
+		{
+			//elements.push_back(line[i]);//char
+			elements.push_back(std::string(1, line[i]));//char to string
+		}
+		//elements.push_back(line);//string
+	}
+
+	//std::list<char>::iterator iter = elements.begin();
+	std::list<std::string>::iterator iter = elements.begin();
+	for (; iter != elements.end(); ++iter)
+	{
+		std::cout << (*iter) << std::endl;
+		output_file << (*iter) << std::endl;
+	}
+
+	if (input_file)
+	{
+		input_file.close();
+		output_file.close();
+	}
+
+	std::cin.get();
+	return 0;
+}

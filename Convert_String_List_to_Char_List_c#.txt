@@ -1,0 +1,45 @@
+
+
+using System;
+using System.Collections.Generic;//for string
+using System.IO;//to use StreamReader
+namespace lec2csharp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            StreamReader input_file = new StreamReader("test.txt");
+            StreamWriter output_file = new StreamWriter("test.txt.out");
+           
+            List<string> elements = new List<string>();
+            //List<char> elements = new List<char>();
+
+            string line = "";
+            for (; (line = input_file.ReadLine()) != null;)
+            {
+                for (int i = 0; i < line.Length; ++i)
+                {
+                    //elements.Add(line[i]);//char
+                    elements.Add(Char.ToString(line[i]));//char to string
+                }
+                //elements.Add(line);//string
+            }
+
+            foreach (string elemnet in elements)
+            //foreach (char elemnet in elements)
+            {
+                Console.WriteLine(elemnet);
+            }
+
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+
+            Console.ReadLine();
+        }
+    }
+}
+
