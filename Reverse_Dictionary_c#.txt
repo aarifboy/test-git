@@ -1,0 +1,42 @@
+
+using System;
+using System.Collections.Generic;//for string
+using System.Linq;//for Reverse
+using System.IO;//to use StreamReader
+namespace lec2csharp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            StreamReader input_file = new StreamReader("test.txt");
+            StreamWriter output_file = new StreamWriter("test.txt.out");
+
+            Dictionary<int, string> elements = new Dictionary<int, string>();
+
+            string line = "";
+            for (int line_no = 1; (line = input_file.ReadLine()) != null; ++line_no)
+            {
+                elements.Add(line_no,line);//string
+            }
+
+            var reverse = elements.Reverse();
+
+            //foreach (KeyValuePair<int, string> element in elements)
+            foreach (var element in reverse)
+            {
+                Console.WriteLine("{0} : {1}",element.Key,element.Value);
+                output_file.WriteLine("{0} : {1}", element.Key, element.Value);
+            }
+
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+
+            Console.ReadLine();
+        }
+    }
+}
+
