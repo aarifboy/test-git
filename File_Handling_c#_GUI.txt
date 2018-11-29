@@ -1,0 +1,50 @@
+//Form1.cs is one file
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.IO;
+
+namespace GUICS
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //StreamReader input_file = new StreamReader("test.txt");
+            //StreamWriter output_file = new StreamWriter("test.txt.out");
+            StreamReader input_file = File.OpenText("test.txt");
+            StreamWriter output_file = File.CreateText("test.txt.out");
+            //StreamWriter output_file = File.AppendText("test.txt.out");
+
+            String line;
+
+            //while ((line = input_file.ReadLine()) != null)
+            //{
+            //    MessageBox.Show(line);
+            //    output_file.WriteLine(line);
+            //}
+
+            line = input_file.ReadToEnd();
+            MessageBox.Show(line);
+            output_file.WriteLine(line);
+
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+        }
+    }
+}
