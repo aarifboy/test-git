@@ -1,0 +1,181 @@
+//MYForm.cpp is one file
+
+#include "MyForm.h"
+
+int main()
+{
+	guicpp::MyForm form;
+	form.ShowDialog();
+	return 0;
+}
+
+//Source.cpp is one source file
+
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include<list>  //for lists
+#include "Header.h"
+void Header::pullout_contents(std::string in_file, std::list<std::string> &elements)
+{
+	std::ifstream input_file(in_file.c_str());
+
+	elements.clear();
+	std::string line;
+	for (int line_no = 1; std::getline(input_file, line); ++line_no)
+	{
+		elements.push_back(line);
+	}
+	input_file.close();
+}
+
+void Header::show_contents(std::ostream &out, const std::list<std::string> &elements)
+{
+	std::list<std::string>::const_iterator iter = elements.begin();
+	for (; iter != elements.end(); ++iter)
+	{
+		out << (*iter) << std::endl;
+	}
+}
+
+void Header::pushin_contents(std::string out_file, const std::list<std::string> &elements)
+{
+	std::ofstream output_file(out_file.c_str());
+	show_contents(output_file, elements);// using polymorphism
+	output_file.close();
+}
+
+//Header.h is another file
+#pragma once
+
+
+#ifndef GUARD_TOKENS_H
+//#define GUARD_TOKENS_H
+#define GUARD_TOKENS_H _declspec(dllexport)
+#else 
+#define GUARD_TOKENS_H _declspec(dllimport)
+#endif
+class Header
+{
+public:
+	//static void pullout_contents(std::string in_file, std::list<std::string> &elements);
+	//static void show_contents(std::ostream &out, const std::list<std::string> &elements);
+	//static void pushin_contents(std::string out_file, const std::list<std::string> &elements);
+	static GUARD_TOKENS_H void pullout_contents(std::string in_file, std::list<std::string> &elements);
+	static GUARD_TOKENS_H void show_contents(std::ostream &out, const std::list<std::string> &elements);
+	static GUARD_TOKENS_H void pushin_contents(std::string out_file, const std::list<std::string> &elements);
+};
+
+//MyForm.h is another header file
+
+#pragma once
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include<list>  //for lists
+#include "Header.h"
+
+namespace guicpp {
+
+	using namespace System;
+	using namespace System::ComponentModel;
+	using namespace System::Collections;
+	using namespace System::Windows::Forms;
+	using namespace System::Data;
+	using namespace System::Drawing;
+
+	void msgbox_contents(const std::list<std::string> &elements)
+	{
+		std::list<std::string>::const_iterator iter = elements.begin();
+		for (; iter != elements.end(); ++iter)
+		{
+			MessageBox::Show(gcnew String((*iter).c_str()));
+		}
+	}
+
+	/// <summary>
+	/// Summary for MyForm
+	/// </summary>
+	public ref class MyForm : public System::Windows::Forms::Form
+	{
+	public:
+		MyForm(void)
+		{
+			InitializeComponent();
+			//
+			//TODO: Add the constructor code here
+			//
+		}
+
+	protected:
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		~MyForm()
+		{
+			if (components)
+			{
+				delete components;
+			}
+		}
+	private: System::Windows::Forms::Button^  button1;
+	protected:
+
+	private:
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		System::ComponentModel::Container ^components;
+
+#pragma region Windows Form Designer generated code
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		void InitializeComponent(void)
+		{
+			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->SuspendLayout();
+			// 
+			// button1
+			// 
+			this->button1->Location = System::Drawing::Point(169, 61);
+			this->button1->Name = L"button1";
+			this->button1->Size = System::Drawing::Size(210, 71);
+			this->button1->TabIndex = 0;
+			this->button1->Text = L"Show OP";
+			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
+			// 
+			// MyForm
+			// 
+			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
+			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->ClientSize = System::Drawing::Size(555, 244);
+			this->Controls->Add(this->button1);
+			this->Name = L"MyForm";
+			this->Text = L"MyForm";
+			this->ResumeLayout(false);
+
+		}
+#pragma endregion
+	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+		std::string in_file;
+		in_file = "test.txt";
+
+		std::string out_file;
+		out_file = "test.txt";
+
+		std::list<std::string> elements;
+		elements.clear();
+
+		Header::pullout_contents(in_file, elements);
+
+		Header::pushin_contents(out_file + ".out", elements);
+
+		msgbox_contents(elements);
+	}
+	};
+}
+
+
