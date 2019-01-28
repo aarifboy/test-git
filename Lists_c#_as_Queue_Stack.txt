@@ -1,0 +1,54 @@
+
+ using System;
+using System.Collections.Generic;//for string and list
+using System.IO;//to use StreamReader
+namespace lec1csharp
+{
+    class Program
+    {
+        static void Main()
+        { 
+            StreamReader input_file = new StreamReader("test.txt");
+            StreamWriter output_file = new StreamWriter("test.txt.out");
+
+            //Queue<string> elements = new Queue<string>();
+            //Stack<string> elements = new Stack<string>();
+            LinkedList<string> elements = new LinkedList<string>();
+
+            string line = "";
+            for (; (line = input_file.ReadLine()) != null;)
+            {
+                //elements.Enqueue(line);// queue
+                //elements.Push(line);// stack
+                //elements.AddLast(line);//linked list
+                elements.AddFirst(line);//linked list
+            }
+            
+            for(; elements.Count!=0;)
+            {
+                //Console.WriteLine(elements.Peek());//for queue and stack 
+                //output_file.WriteLine(elements.Peek());
+                Console.WriteLine(elements.First.Value);// for linked list
+                output_file.WriteLine(elements.First.Value);
+
+                //elements.Dequeue();//for queue
+                //elements.Pop();// for stack
+                elements.RemoveFirst();//linked list
+            }
+
+            foreach (string iter in elements)
+            {
+                Console.WriteLine(iter);
+                output_file.WriteLine(iter);
+            }
+
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+            Console.ReadLine();
+        }
+    }
+}
+

@@ -1,0 +1,52 @@
+
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include <list>  //for lists
+#include <queue>
+#include <stack>
+
+int main()
+{
+	std::ifstream input_file("test.txt");
+	std::ofstream output_file("test.txt.out");
+
+	//std::queue<std::string> elements;
+	//std::stack<std::string> elements;
+	std::list<std::string> elements;
+
+	std::string line;
+	for (; std::getline(input_file, line);)
+	{	
+		//elements.push(line);// queue and stacK
+		//elements.push_back(line);// list 
+		elements.push_front(line);//list			
+	}
+
+	for (; !elements.empty();)
+	{
+		std::cout << elements.front() << std::endl;//list and queue
+		output_file << elements.front() << std::endl;
+		//std::cout << elements.top() << std::endl;// stack
+		//output_file << elements.top() << std::endl;	
+
+		//elements.pop();//stack and queue
+		elements.pop_front();//list 
+	}
+
+	std::list<std::string>::iterator iter = elements.begin();
+	for (; iter != elements.end(); ++iter)
+	{
+		std::cout << (*iter) << std::endl;
+		output_file << (*iter) << std::endl;
+	}
+	
+	if (input_file)
+	{
+		input_file.close();
+		output_file.close();
+	}
+	std::cin.get();
+	return 0;
+}
+

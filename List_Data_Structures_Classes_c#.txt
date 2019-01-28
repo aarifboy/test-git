@@ -1,0 +1,75 @@
+
+using System;
+using System.Collections.Generic;//for string and list
+using System.IO;//to use StreamReader
+namespace lec1csharp
+{
+    class Program
+    {
+        //class Linked_list
+        //{
+        //    public string data;
+        //    public Linked_list next;
+        //};
+        static void Main()
+        {
+            StreamReader input_file = new StreamReader("test.txt");
+            StreamWriter output_file = new StreamWriter("test.txt.out");
+
+            //Linked_list elements, node,iter;
+            //elements = node =iter = null;
+            LinkedList<string> elements = new LinkedList<string>();
+
+            string line = "";
+            for (; (line = input_file.ReadLine()) != null;)
+            {
+                //iter = new Linked_list();
+                //iter.data = line;
+                //iter.next = null;
+
+                //iter = new Linked_list
+                //{
+                //    data = line,
+                //    next = null
+                //};
+
+                //if (elements == null)
+                //{
+                //    node = elements = iter;
+                //    //elements = iter;
+                //    //node = iter;
+                //}
+                //else
+                //{
+                //    node = node.next = iter;
+                //    //node.next = iter;
+                //    //node = node.next;
+                //}
+
+                elements.AddLast(line);
+            }
+
+            //for (iter = elements; iter != null; iter = iter.next)
+            //{
+            //    Console.WriteLine(iter.data);
+            //    output_file.WriteLine(iter.data);
+            //}
+
+            foreach (string iter in elements)
+            {
+                Console.WriteLine(iter);
+                output_file.WriteLine(iter);
+            }
+
+            //iter = null;
+
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+            Console.ReadLine();
+        }
+    }
+}
+
