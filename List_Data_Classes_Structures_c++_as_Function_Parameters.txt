@@ -1,0 +1,111 @@
+
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+
+struct List
+//class List
+{
+public:
+	std::string data;
+	List *next;
+};
+
+void pullout_contents(std::string in_file, List **elements)
+{
+	std::ifstream input_file(in_file.c_str());
+	List *iter = NULL;
+	List *node = NULL;
+
+	std::string line;
+	for (; std::getline(input_file, line);)
+	{
+		iter = new List
+		{
+			line,
+			NULL
+		};
+		if (*elements == NULL)
+		{
+			*elements = iter;
+			node = iter;
+		}
+		else
+		{
+			node->next = iter;
+			node = node->next;
+		}
+	}
+	input_file.close();
+}
+void show_contents(std::ostream &out, List *elements)
+{
+	List *iter = NULL;
+	for (iter = elements; iter != NULL; iter = iter->next)
+	{
+		out << iter->data << std::endl;
+	}
+}
+void pushin_contents(std::string out_file, List *elements)
+{
+	std::ofstream output_file(out_file.c_str());
+
+	show_contents(output_file, elements);// using polymorphism
+
+	output_file.close();
+}
+
+int main()
+{
+	std::string in_file = "test.txt";
+	std::string out_file = in_file + ".out";
+
+	//std::ifstream input_file(in_file);	
+	//std::ofstream output_file(out_file);
+
+	List *elements = NULL;
+	List *node = NULL ;
+	List *iter = NULL;
+
+	//std::string line;
+	//for (; std::getline(input_file, line);)
+	//{
+	//	iter = new List
+	//	{
+	//		line,
+	//		NULL
+	//	};
+	//	if (elements == NULL)
+	//	{
+	//		elements = iter;
+	//		node = iter;
+	//	}
+	//	else
+	//	{
+	//		node->next = iter;
+	//		node = node->next;
+	//	}		
+	//}
+
+	pullout_contents(in_file, &elements);
+
+	show_contents(std::cout, elements);
+
+	pushin_contents(out_file, elements);
+
+	//for (iter = elements; iter != NULL; iter = iter->next)
+	//{
+	//	//std::cout << iter->data << std::endl;
+	//	output_file << iter->data << std::endl;
+	//}
+
+	delete iter;
+
+	//if (input_file)
+	//{
+	//	input_file.close();
+	//	output_file.close();
+	//}
+	std::cin.get();
+	return 0;
+}

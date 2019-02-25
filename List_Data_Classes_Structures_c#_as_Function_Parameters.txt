@@ -1,0 +1,127 @@
+
+using System;
+using System.Collections.Generic;//for string and list
+using System.IO;//to use StreamReader
+namespace lec1csharp
+{
+    class Program
+    {
+        class Linked_list
+        {
+            //public string Data;
+            //public Linked_list Next;
+            public string Data { get; set; }
+            public Linked_list Next { get; set; }
+        };
+
+        static void Pullout_contents(string in_file,ref Linked_list elements)
+        {
+            StreamReader input_file = new StreamReader(in_file.ToString());
+
+            Linked_list iter = null;
+            Linked_list node = null;
+
+            string line = "";
+            for (int line_no = 1; (line = input_file.ReadLine()) != null; ++line_no)
+            {
+                iter = new Linked_list
+                {
+                    Data = line,
+                    Next = null
+                };
+
+                if (elements == null)
+                {
+                    elements = iter;
+                    node = iter;
+                }
+                else
+                {
+                    node.Next = iter;
+                    node = node.Next;
+                }
+            }
+
+            input_file.Close();
+        }
+        static void Show_contents(StreamWriter Out, Linked_list elements)
+        {
+            Linked_list iter = null;
+            for (iter = elements; iter != null; iter = iter.Next)
+            {
+                Console.WriteLine(iter.Data);
+            }
+        }
+
+        static void Pushin_contents(string out_file, Linked_list elements)
+        {
+            StreamWriter output_file = new StreamWriter(out_file.ToString())
+            {
+                AutoFlush = true
+            };
+            Console.SetOut(output_file);
+
+            Show_contents(output_file, elements);// using polymorphism
+
+            output_file.Close();
+        }
+         
+        static void Main()
+        {
+            StreamWriter output = null;
+
+            string in_file = "test.txt";
+            string out_file = in_file + ".out";
+
+            //StreamReader input_file = new StreamReader(in_file);//skip when used in a function
+            //StreamWriter output_file = new StreamWriter(out_file);//skip when used in functions
+
+            Linked_list elements = null;
+            Linked_list node = null;
+            Linked_list iter = null;
+
+            //string line = "";
+            //for (; (line = input_file.ReadLine()) != null;)
+            //{
+            //    iter = new Linked_list
+            //    {
+            //        Data = line,
+            //        Next = null
+            //    };
+
+            //    if (elements == null)
+            //    {
+            //        elements = iter;
+            //        node = iter;
+            //    }
+            //    else
+            //    {
+            //        node.Next = iter;
+            //        node = node.Next;
+            //    }
+            //}
+
+            Pullout_contents(in_file,ref elements);
+
+            Show_contents(output, elements);
+
+            Pushin_contents(out_file, elements);
+
+            //for (iter = elements; iter != null; iter = iter.Next)
+            //{
+            //    //Console.WriteLine(iter.Data);
+            //    output_file.WriteLine(iter.Data);
+            //}
+
+            iter = null;
+
+            //if (input_file != null)
+            //{
+            //    input_file.Close();
+            //    output_file.Close();
+            //}
+            Console.ReadLine();
+        }
+    }
+}
+

@@ -1,0 +1,103 @@
+
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+//#include <list> //for lists
+#include <stack> //for stack
+
+//class List
+//{
+//public:
+//	std::string data;
+//	List *next;
+//};
+
+//struct List
+//{
+//	std::string data;
+//	List *next;
+//};
+
+int main()
+{
+	std::ifstream input_file("test.txt");
+	std::ofstream output_file("test.txt.out");
+
+	//List *iter, *elements, *node;
+	//elements = iter = node = NULL;
+
+	//std::list<std::string> elements;
+	std::stack<std::string> elements;
+
+	std::string line;
+	for (; std::getline(input_file, line);)
+	{
+		//iter = new List
+		//{
+		//	line,
+		//	NULL
+		//};
+
+		//if (elements == NULL)
+		//{
+		//	node = elements = iter;
+		//}
+		//else
+		//{
+		//	node = node->next = iter;
+		//}		
+		//iter->next = elements;
+		//elements = iter;//equal to push_front()of list and push() of stacK
+
+		//elements.push_back(line);//for list
+		//elements.push_front(line);//for list
+		elements.push(line);// for stack
+	}
+
+	//std::cout << "Shows elements of Stack:" << std::endl;
+	//for (;elements != NULL;)
+	//{
+	//	iter = elements;
+	//	std::cout<< iter->data<<std::endl;
+	//	output_file<< iter->data<<std::endl;
+	//	elements = elements->next;
+	//	delete iter;
+	//}
+
+	//std::cout<<"Shows elements of list:"<<std::endl;
+	//for (iter = elements; iter != NULL; iter = iter->next)
+	//{
+	//	std::cout << iter->data << std::endl;
+	//	output_file << iter->data << std::endl;
+	//}
+
+	std::cout << "Shows elements of stack:" << std::endl;
+	for (; !elements.empty();)
+	{
+		//std::cout << elements.front() << std::endl;// for list 
+		//output_file << elements.front() << std::endl;// for list 
+		std::cout << elements.top() << std::endl;// for stack 
+		output_file << elements.top() << std::endl;// for stack 
+		
+		//elements.pop_front();//for list 
+		elements.pop();//for stack
+	}
+
+	//std::cout<<"Shows elements of list:"<<std::endl;
+	//std::list<std::string>::iterator iter = elements.begin();
+	//for (; iter != elements.end(); ++iter)
+	//{
+	//	std::cout << (*iter) << std::endl;
+	//	output_file << (*iter) << std::endl;
+	//}
+
+	//delete iter;
+
+	if (input_file)
+	{
+		input_file.close();
+		output_file.close();
+	}
+	std::cin.get();
+	return 0;
+}

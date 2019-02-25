@@ -1,0 +1,79 @@
+
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include <list> //for lists
+
+struct file_element
+//class file_element
+{
+public:
+	std::string line;
+};
+
+struct List
+//class List
+{
+public:
+	//std::string data;
+	file_element data;
+	List *next;
+};
+
+
+int main()
+{
+	std::string in_file = "test.txt";
+	std::string out_file = in_file + ".out";
+
+	std::ifstream input_file(in_file);	
+	std::ofstream output_file(out_file);
+
+	List *elements = NULL;
+	List *node = NULL ;
+	List *iter = NULL;
+
+	std::string line;
+	for (; std::getline(input_file, line);)
+	{
+		file_element element
+		{
+			line
+		};
+
+		iter = new List
+		{
+			//line,
+			element,
+			NULL
+		};
+		if (elements == NULL)
+		{
+			elements = iter;
+			node = iter;
+		}
+		else
+		{
+			node->next = iter;
+			node = node->next;
+		}		
+	}
+
+	for (iter = elements; iter != NULL; iter = iter->next)
+	{
+		//std::cout << iter->data << std::endl;
+		//output_file << iter->data << std::endl;
+		std::cout << iter->data.line << std::endl;
+		output_file << iter->data.line << std::endl;
+	}
+
+	delete iter;
+
+	if (input_file)
+	{
+		input_file.close();
+		output_file.close();
+	}
+	std::cin.get();
+	return 0;
+}

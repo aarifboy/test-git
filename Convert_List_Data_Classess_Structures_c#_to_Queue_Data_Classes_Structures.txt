@@ -1,0 +1,93 @@
+
+using System;
+using System.Collections.Generic;//for string and list
+using System.IO;//to use StreamReader
+namespace lec1csharp
+{
+    class Program
+    {
+        //class Linked_list
+        //{
+        //    public string data;
+        //    public Linked_list next;
+        //};
+        static void Main()
+        { 
+            StreamReader input_file = new StreamReader("test.txt");
+            StreamWriter output_file = new StreamWriter("test.txt.out");
+
+            //Linked_list iter, elements, node;
+            //elements = iter = node = null;
+
+            //LinkedList<string> elements = new LinkedList<string>();
+            Queue<string> elements = new Queue<string>();
+            elements.Clear();
+
+            string line = "";
+            for (; (line = input_file.ReadLine()) != null;)
+            {
+                //iter = new Linked_list();
+                //iter.data = line;
+                //iter.next = null;
+
+                //if (elements == null)
+                //{
+                //    node = elements = iter;
+                //}
+                //else
+                //{
+                //    node = node.next = iter;
+                //}
+
+                //elements.AddLast(line);//Linkedlist
+                elements.Enqueue(line);// queue
+            }
+
+            //Console.WriteLine("Shows elements of Queue:");
+            //for (; elements != null;)
+            //{
+            //    iter = elements;
+            //    Console.WriteLine(iter.data);
+            //    output_file.WriteLine(iter.data);
+            //    elements = elements.next;
+            //    iter = null;
+            //}
+
+            //Console.WriteLine("Shows elements of list:");
+            //for (iter = elements; iter != null; iter = iter.next)
+            //{
+            //    Console.WriteLine(iter.data);
+            //    output_file.WriteLine(iter.data);
+            //}
+
+            Console.WriteLine("Shows elements of Queue:");
+            for (; elements.Count != 0;)
+            {
+                //Console.WriteLine(elements.First.Value);// Linkedlist
+                //output_file.WriteLine(elements.First.Value);//Linkedlist
+                Console.WriteLine(elements.Peek());// queue
+                output_file.WriteLine(elements.Peek());//queue
+
+                //elements.RemoveFirst();//linked list
+                elements.Dequeue();//for queue
+            }
+
+            Console.WriteLine("Shows elements of list:");
+            foreach (string iter in elements)
+            {
+                Console.WriteLine(iter);
+                output_file.WriteLine(iter);
+            }
+
+            //iter = null;
+
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+            Console.ReadLine();
+        }
+    }
+}
+

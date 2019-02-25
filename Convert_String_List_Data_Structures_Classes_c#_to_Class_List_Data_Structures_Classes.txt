@@ -1,0 +1,83 @@
+
+using System;
+using System.Collections.Generic;//for string and list
+using System.IO;//to use StreamReader
+namespace lec1csharp
+{
+    class Program
+    {
+        struct File_element
+        //class File_element
+        {
+            //public string Line;
+            public string Line { get; set; }
+        };
+
+        class Linked_list
+        {
+            //public string Data;
+            //public File_element Data;
+            //public Linked_list Next;
+            public File_element Data { get; set; }
+            public Linked_list Next { get; set; }
+        };
+         
+        static void Main()
+        {
+            string in_file = "test.txt";
+            string out_file = in_file + ".out";
+
+            StreamReader input_file = new StreamReader(in_file);
+            StreamWriter output_file = new StreamWriter(out_file);
+
+            Linked_list elements = null;
+            Linked_list node = null;
+            Linked_list iter = null;
+
+            string line = "";
+            for (; (line = input_file.ReadLine()) != null;)
+            {
+                File_element element = new File_element
+                {
+                    Line = line
+                };
+
+                iter = new Linked_list
+                {
+                    //Data = line,
+                    Data = element,
+                    Next = null
+                };
+
+                if (elements == null)
+                {
+                    elements = iter;
+                    node = iter;
+                }
+                else
+                {
+                    node.Next = iter;
+                    node = node.Next;
+                }
+            }
+
+            for (iter = elements; iter != null; iter = iter.Next)
+            {
+                //Console.WriteLine(iter.Data);
+                //output_file.WriteLine(iter.Data);
+                Console.WriteLine(iter.Data.Line);
+                output_file.WriteLine(iter.Data.Line);
+            }
+
+            iter = null;
+
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+            Console.ReadLine();
+        }
+    }
+}
+
