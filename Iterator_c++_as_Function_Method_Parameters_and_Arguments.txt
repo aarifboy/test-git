@@ -1,0 +1,49 @@
+
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include<list>  //for lists
+
+void show(std::ostream &out, std::list<std::string>::const_iterator iter)
+{
+	out << *iter << std::endl;
+}
+
+void pushin(std::ofstream &output_file, std::list<std::string>::const_iterator iter)
+{
+	output_file << *iter << std::endl;
+}
+
+int main()
+{
+	std::string in_file = "test.txt";
+	std::string out_file= in_file + ".out";
+
+	std::ifstream input_file(in_file.c_str());
+	std::ofstream output_file(out_file.c_str());
+
+	std::list<std::string> elements;
+
+	std::string line;
+	for (; std::getline(input_file, line); )
+	{
+		elements.push_back(line);
+	}
+
+	std::list<std::string>::const_iterator iter = elements.begin();
+	for (; iter != elements.end(); ++iter)
+	{
+		//std::cout << (*iter) << std::endl;
+		//output_file << (*iter) << std::endl;
+		show(std::cout, iter);
+		pushin(output_file, iter);
+	}
+
+	if (input_file)
+	{
+		input_file.close();
+		output_file.close();
+	}
+	std::cin.get();
+	return 0;
+}
