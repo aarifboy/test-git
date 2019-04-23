@@ -1,0 +1,51 @@
+
+#include <iostream> 
+
+void Equal(int A, int B)
+{	
+	//if (A == B)
+	if (!(A ^ B))
+		std::cout << "A is equal to B" << std::endl;
+}
+
+void Lesser(int A, int B)
+{	
+	//if (A < B)
+	if ((A - B) ^ abs(A - B))
+		std::cout << "A is less than B" << std::endl;
+}
+
+void Greater(int A, int B)
+{	
+	//if (A > B)//relational operator
+	//if (!(A < B) && (A != B))//logical operator is &&
+	if (!((A - B) ^ abs(A - B)) && (A ^ B))
+		std::cout << "A is greater than B" << std::endl;
+}
+ 
+int main()
+{
+	//int A = 5, B = 5;
+	//int A = 5, B = 15;
+	int A = 15, B = 5;
+
+	////if (A == B)//relational operator
+	////if ((A ^ B) == 0)// bitwise operator is ^	, relational operator is ==
+	//if (!(A ^ B))// bitwise operator is ^	, logical operator is !	
+	//	std::cout << "A is equal to B" << std::endl;
+
+	////else if (A < B)//relational operator
+	////else if (((A - B) ^ abs(A - B)) != 0)// bitwise operator is ^, arithmatic operator is -
+	//else if ((A - B) ^ abs(A - B))// bitwise operator is ^, arithmatic operator is -	
+	//	std::cout << "A is less than B" << std::endl;
+
+	//else
+	//	std::cout << "A is greater than B" << std::endl;
+
+	Equal(A, B);
+	Lesser(A, B);
+	Greater(A, B);
+
+	std::cin.get();
+	return 0;
+}

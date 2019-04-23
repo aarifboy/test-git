@@ -1,0 +1,57 @@
+
+#include <iostream> 
+
+bool Equal(int A, int B)
+//int Equal(int A, int B)
+//void Equal(int A, int B)
+{	
+	if (A == B)
+		std::cout << "A is equal to B" << std::endl;
+	//return 0;
+	return true;
+}
+
+bool Lesser(int A, int B)
+//int Lesser(int A, int B)
+//void Lesser(int A, int B)
+{	
+	if (A < B)
+		std::cout << "A is less than B" << std::endl;
+	//return 1;
+	return true;
+}
+
+bool Greater(int A, int B)
+//int Greater(int A, int B)
+//void Greater(int A, int B)
+{	
+	if (A > B)
+		std::cout << "A is greater than B" << std::endl;
+	//return 2;
+	return true;
+}
+ 
+int main()
+{
+	int A = 5, B = 5;
+	//int A = 5, B = 15;
+	//int A = 15, B = 5;
+
+	//Equal(A, B);
+	//Lesser(A, B);
+	//Greater(A, B);
+
+	//std::cout << Equal(A, B) << std::endl;
+	//std::cout << Lesser(A, B) << std::endl;
+	//std::cout << Greater(A, B) << std::endl;
+
+	if (!Equal(A, B))
+		return false;
+	if (!Lesser(A, B))
+		return false;
+	if (!Greater(A, B))
+		return false;
+
+	std::cin.get();
+	return 0;
+}

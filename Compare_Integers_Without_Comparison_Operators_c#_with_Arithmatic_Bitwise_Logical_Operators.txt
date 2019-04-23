@@ -1,0 +1,55 @@
+
+using System;
+using System.Collections.Generic;//for string
+using System.IO;//to use StreamReader
+namespace lec1csharp
+{
+    class Program
+    {
+        static void Equal(int A, int B)
+        {
+            //if (A == B)
+            if ((A ^ B) == 0)
+                Console.WriteLine( "A is equal to B");
+        }
+
+        static void Lesser(int A, int B)
+        {
+            //if (A < B)
+            if (((A - B) ^ Math.Abs(A - B)) != 0)
+                Console.WriteLine( "A is less than B");
+        }
+
+        static void Greater(int A, int B)
+        {
+            //if (A > B)//relational operator
+            //if (!(A < B) && (A != B))//logical operator is &&
+            if (((A - B) ^ Math.Abs(A - B)) == 0 && (A ^ B) != 0)
+                Console.WriteLine( "A is greater than B" );
+        }
+
+        static void Main()
+        {
+            int A = 5, B = 5;
+            //int A = 5, B = 15;
+            //int A = 15, B = 5;
+
+            ////if (A == B)//relational operator
+            //if ((A ^ B) == 0)// bitwise operator is ^
+            //    Console.WriteLine("A is equal to B");
+
+            ////else if (A < B)//relational operator
+            //else if (((A - B) ^ Math.Abs(A - B)) != 0)// bitwise operator is ^, arithmatic operator is -
+            //    Console.WriteLine("A is less than B");
+
+            //else
+            //    Console.WriteLine("A is greater than B");
+
+            Equal(A, B);
+            Lesser(A, B);
+            Greater(A, B);
+
+            Console.ReadLine();
+        }
+    }
+}
