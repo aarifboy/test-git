@@ -1,0 +1,37 @@
+
+using System;
+using System.IO;//to use StreamReader
+namespace lec1csharp
+{
+    class Program
+    {
+        static unsafe void Main(string[] args)
+        //static void Main(string[] args)
+        {
+            StreamReader input_file = new StreamReader("test.txt");
+            StreamWriter output_file = new StreamWriter("test.txt.out");
+
+            string line = "";
+            int line_no = 0;
+            int var1 = line_no;
+            string var2 = line;
+            for (line_no = 1; (line = input_file.ReadLine()) != null; ++line_no)
+            {
+                int* p_i = &var1;                
+                Console.WriteLine("LINE {0} :{1}", line_no, line);
+                fixed (char* p_s = var2)
+                    Console.WriteLine("ADDRESS {0} :{1}", (int)p_i, (int)p_s);
+                output_file.WriteLine("LINE {0} :{1}", line_no, line);
+                fixed (char* p_s = var2)
+                    output_file.WriteLine("ADDRESS {0} :{1}", (int)p_i, (int)p_s);
+            }
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+
+            Console.ReadLine();
+        }
+    }
+}
