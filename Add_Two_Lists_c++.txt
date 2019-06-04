@@ -1,0 +1,88 @@
+
+
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include <list>
+#include <iterator> //front_inserter   and inserter
+
+int main()
+{
+	std::ifstream input_file1("test1.txt");
+	std::ifstream input_file2("test2.txt");
+	std::ofstream output_file("test.txt.out");
+
+	std::list <std::string> elements1;
+	std::list <std::string> elements2;
+
+	std::string line;
+	int line_no = 1;
+
+	for (; std::getline(input_file1, line); ++line_no)
+	{
+		elements1.push_back(line);
+	}
+
+	for (; std::getline(input_file2, line); ++line_no)
+	{
+		elements2.push_back(line);
+	}
+	
+
+	//elements1.sort();//merge needs these sorts before it
+	//elements2.sort();
+	//elements1.merge(elements2);//add/sort/duplicate/copied list becomes empty
+	//elements1.unique();
+
+	std::list <std::string> add;
+	std::list <std::string> assign;
+
+	assign = elements2;
+	add = elements1;
+
+	//add.sort();//needed for merge
+	//assign.sort();
+	//add.merge(assign);//add/sort/duplicate/copied list becomes empty
+	//add.unique();//removes duplicates
+	
+	//add.splice(add.end(), assign);//duplicates/not sorted/copied list becomes empty
+	//copy(elements2.begin(), elements2.end(), std::back_inserter(add));//duplicates/not sorted
+	//copy(elements2.begin(), elements2.end(), std::front_inserter(add));
+	//copy(elements2.begin(), elements2.end(), std::inserter(add,add.end()));
+	copy(elements2.begin(), elements2.end(), std::inserter(add, add.begin()));
+	add.sort();
+	add.unique();//remove duplicates
+
+	std::cout << "elements of list1:" << std::endl;
+	std::list<std::string>::const_iterator iter = elements1.begin();
+	for (; iter != elements1.end(); ++iter)
+	{
+		std::cout << *iter << std::endl;
+		output_file << *iter << std::endl;
+	}
+
+	std::cout << "elements of list2:" << std::endl;
+	std::list<std::string>::const_iterator it = elements2.begin();
+	for (; it != elements2.end(); ++it)
+	{
+		std::cout << *it << std::endl;
+		output_file << *it << std::endl;
+	}
+
+	std::cout << "Result of list addition:" << std::endl;
+	std::list<std::string>::const_iterator itr = add.begin();
+	for (; itr != add.end(); ++itr)
+	{
+		std::cout << *itr << std::endl;
+		output_file << *itr << std::endl;
+	}
+
+	if (input_file1 && input_file2)
+	{
+		input_file1.close();
+		input_file2.close();
+		output_file.close();
+	}
+	std::cin.get();
+	return 0;
+}

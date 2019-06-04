@@ -1,0 +1,59 @@
+
+
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+
+//int main()
+int main(int argc, char *argv[])
+{
+	if (argc < 3)
+	{
+		std::cerr << "provide 2 input file names for command line args in properties." 
+			<< std::endl;
+		std::cin.get();
+		return -1;
+	}
+
+	std::cout << "There are " << argc << " arguments." << std::endl;
+	for (int i = 0; i != argc; ++i)
+	{
+		std::cout << argv[i] << std::endl;
+	}
+
+	//std::ifstream input_file1("test1.txt");
+	//std::ifstream input_file2("test2.txt");
+	std::ifstream input_file1(argv[1]);
+	std::ifstream input_file2(argv[2]);
+
+	std::ofstream output_file("test.txt.out");
+
+	std::string line;
+	int line_no = 1;
+
+	for (; std::getline(input_file1, line); ++line_no)
+	{
+
+		std::cout <<  line_no << ":" << line << std::endl;
+		output_file <<  line_no << ":" << line << std::endl;
+	}
+
+	for (; std::getline(input_file2, line); ++line_no)
+	{
+
+		std::cout <<  line_no << ":" << line << std::endl;
+		output_file <<  line_no << ":" << line << std::endl;
+	}
+
+	//if (input_file1)
+	if (input_file1 && input_file2)
+	{
+		input_file1.close();
+		input_file2.close();
+
+		output_file.close();
+	}
+	std::cin.get();
+	return 0;
+}
+

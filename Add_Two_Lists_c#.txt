@@ -1,0 +1,83 @@
+
+
+using System;
+using System.IO;//to use StreamReader
+using System.Collections.Generic;// for lists
+using System.Linq;//for Unions and Concat
+namespace lec1csharp
+{
+    class Program
+    {
+        static void Main()
+        {
+            StreamReader input_file1 = new StreamReader("test1.txt");
+            StreamReader input_file2 = new StreamReader("test2.txt");
+            StreamWriter output_file = new StreamWriter("test.txt.out");
+
+            List<string> elements1 = new List<string>();
+            List<string> elements2 = new List<string>();
+           
+            string line = "";
+            int line_no = 1;
+ 
+            for (; (line = input_file1.ReadLine()) != null; ++line_no)
+            {
+                elements1.Add(line);
+            }
+
+            for (; (line = input_file2.ReadLine()) != null; ++line_no)
+            {
+                elements2.Add(line);
+            }
+
+            //elements1.AddRange(elements2);
+            //elements2.RemoveRange(0, elements2.Count);            
+            //elements1.Sort();
+
+            List<string> add = new List<string>();
+            List<string> assign = new List<string>(elements1);//copy elemnts1 to new list 
+
+            //add = assign;
+            //add.AddRange(elements2);//add/no sort/duplicates
+            //add.InsertRange(add.Count, elements2);
+            //elements2.ForEach(x => add.Add(x));
+            //add.Sort();
+
+            //add = elements1.Concat(elements2).ToList();//add, convert IEnumerable to list,no sort
+            //add = elements1.Concat(elements2).Distinct().ToList();//removes duplicate
+            add = elements1.Union(elements2).ToList();//add,no sort,no duplicate
+            add.Sort();            
+
+            Console.WriteLine("elements of list1");
+            foreach (string iter in elements1)
+            {
+                Console.WriteLine(iter);
+                output_file.WriteLine(iter);
+            }
+
+            Console.WriteLine("elements of list2");
+            foreach (string iter in elements2)
+            {
+                Console.WriteLine(iter);
+                output_file.WriteLine(iter);
+            }
+
+            Console.WriteLine("Result of list addition:");
+            foreach (string iter in add)
+            {
+                Console.WriteLine(iter);
+                output_file.WriteLine(iter);
+            }
+
+            if (input_file1 != null && input_file2 != null)
+            {
+                input_file1.Close();
+                input_file2.Close();
+                output_file.Close();
+            }
+
+            Console.ReadLine();
+        }
+    }
+}
+
