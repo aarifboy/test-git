@@ -1,0 +1,78 @@
+
+
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include <list>
+#include <set>
+#include <iterator> //for inserter
+#include <algorithm> //for set_intersection
+
+int main()
+{
+	std::ifstream input_file1("test1.txt");
+	std::ifstream input_file2("test2.txt");
+	std::ofstream output_file("test.txt.out");
+
+	std::list <std::string> elements1;
+	std::list <std::string> elements2;
+
+	std::string line;
+
+	for (; std::getline(input_file1, line);)
+	{
+		elements1.push_back(line);
+	}
+
+	for (; std::getline(input_file2, line);)
+	{
+		elements2.push_back(line);
+	}
+
+	elements1.sort();//for set_intersection
+	elements2.sort();//for set_intersection
+
+	//std::list<std::string> add;//add/sort/no duplicate
+	//std::set<std::string> add;//add/sort/no duplicate
+	std::multiset<std::string> add;//add/sort/duplicate
+
+	std::set_intersection(elements1.begin(), elements1.end(),
+		elements2.begin(), elements2.end(), std::inserter(add, add.begin()));
+		//elements2.begin(), elements2.end(), std::back_inserter(add));
+		//elements2.begin(), elements2.end(), std::front_inserter(add));
+
+	std::cout << "elements of list1:" << std::endl;
+	std::list<std::string>::const_iterator iter = elements1.begin();
+	for (; iter != elements1.end(); ++iter)
+	{
+		std::cout << *iter << std::endl;
+		output_file << *iter << std::endl;
+	}
+	
+	std::cout << "elements of list2:" << std::endl;
+	std::list<std::string>::const_iterator it = elements2.begin();
+	for (; it != elements2.end(); ++it)
+	{
+		std::cout << *it << std::endl;
+		output_file << *it << std::endl;
+	}
+
+	std::cout << "Result of list intersection:" << std::endl;
+	//std::list<std::string>::iterator itr = add.begin();
+	//std::set<std::string>::iterator itr = add.begin();
+	std::multiset<std::string>::iterator itr = add.begin();
+	for (; itr != add.end(); ++itr)
+	{
+		std::cout << *itr << std::endl;
+		output_file << *itr << std::endl;
+	}
+
+	if (input_file1 && input_file2)
+	{
+		input_file1.close();
+		input_file2.close();
+		output_file.close();
+	}
+	std::cin.get();
+	return 0;
+}

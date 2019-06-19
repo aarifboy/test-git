@@ -1,0 +1,92 @@
+
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include <list>
+#include <set>
+#include <iterator> //for inserter
+#include <algorithm> //for set_intersection
+#include <unordered_set>
+
+int main()
+{
+	std::ifstream input_file1("test1.txt");
+	std::ifstream input_file2("test2.txt");
+	std::ofstream output_file("test.txt.out");
+
+	//std::set<std::string> elements1;
+	//std::set<std::string> elements2;
+	std::unordered_set<std::string> elements1;
+	std::unordered_set<std::string> elements2;
+
+	std::string line;
+
+	for (; std::getline(input_file1, line);)
+	{
+		elements1.insert(line);
+	}
+
+	for (; std::getline(input_file2, line);)
+	{
+		elements2.insert(line);
+	}
+
+	//std::set<std::string> sorted_elements1(elements1.begin(),elements1.end());//sort
+	//std::set<std::string> sorted_elements2(elements2.begin(), elements2.end());//sort
+
+	std::vector<std::string> sorted_elements1(elements1.begin(), elements1.end());
+	std::vector<std::string> sorted_elements2(elements2.begin(), elements2.end());
+	std::sort(sorted_elements1.begin(), sorted_elements1.end());
+	std::sort(sorted_elements2.begin(), sorted_elements2.end());
+
+	//std::set<std::string> add;//add/sort/no duplicate
+	std::unordered_set<std::string> add;//add/no sort/no duplicate
+	//add.insert(elements1.begin(), elements1.end());
+	//add.insert(elements2.begin(), elements2.end());
+	//std::set_intersection(elements1.begin(), elements1.end(),
+		//elements2.begin(), elements2.end(), std::inserter(add, add.begin()));
+	std::set_intersection(sorted_elements1.begin(), sorted_elements1.end(),
+		sorted_elements2.begin(), sorted_elements2.end(), std::inserter(add, add.begin()));
+
+	std::cout << "elements of set1:" << std::endl;
+	//std::set<std::string>::const_iterator iter = elements1.begin();
+	//std::set<std::string>::const_iterator iter = sorted_elements1.begin();
+	std::vector<std::string>::const_iterator iter = sorted_elements1.begin();
+	//std::unordered_set<std::string>::const_iterator iter = elements1.begin();
+	//for (; iter != elements1.end(); ++iter)
+	for (; iter != sorted_elements1.end(); ++iter)
+	{
+		std::cout << *iter << std::endl;
+		output_file << *iter << std::endl;
+	}
+	
+	std::cout << "elements of set2:" << std::endl;
+	//std::set<std::string>::const_iterator it = elements2.begin();
+	//std::set<std::string>::const_iterator it = sorted_elements2.begin();
+	std::vector<std::string>::const_iterator it = sorted_elements2.begin();
+	//std::unordered_set<std::string>::const_iterator it = elements2.begin();
+	//for (; it != elements2.end(); ++it)
+	for (; it != sorted_elements2.end(); ++it)
+	{
+		std::cout << *it << std::endl;
+		output_file << *it << std::endl;
+	}
+
+	std::cout << "Result of set addition:" << std::endl;
+	//std::set<std::string>::iterator itr = add.begin();
+	std::unordered_set<std::string>::const_iterator itr = add.begin();
+	for (; itr != add.end(); ++itr)
+	{
+		std::cout << *itr << std::endl;
+		output_file << *itr << std::endl;
+	}
+
+	if (input_file1 && input_file2)
+	{
+		input_file1.close();
+		input_file2.close();
+		output_file.close();
+	}
+	std::cin.get();
+	return 0;
+}

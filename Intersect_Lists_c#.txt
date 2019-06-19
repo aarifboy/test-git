@@ -1,0 +1,72 @@
+
+
+using System;
+using System.IO;//to use StreamReader
+using System.Collections.Generic;// for lists
+using System.Linq;//for Union, UnionWith and Intersect
+namespace lec1csharp
+{
+    class Program
+    {
+        static void Main()
+        {
+            StreamReader input_file1 = new StreamReader("test1.txt");
+            StreamReader input_file2 = new StreamReader("test2.txt");
+            StreamWriter output_file = new StreamWriter("test.txt.out");
+
+            List<string> elements1 = new List<string>();
+            List<string> elements2 = new List<string>();
+
+            string line = "";
+ 
+            for (; (line = input_file1.ReadLine()) != null;)
+            {
+                elements1.Add(line);
+            }
+
+            for (; (line = input_file2.ReadLine()) != null;)
+            {
+                elements2.Add(line);
+            }
+
+            //List<string> add = new List<string>();
+            //HashSet<string> add = new HashSet<string>();//add,no duplicate
+            SortedSet<string> add = new SortedSet<string>();//add,sort,no duplicate
+
+            //add = elements1.Intersect(elements2).ToList();//ToList to convert IEnumerable to List
+            add.UnionWith(elements1);
+            add.IntersectWith(elements2);
+           
+
+            Console.WriteLine("elements of list1");
+            foreach (string iter in elements1)
+            {
+                Console.WriteLine(iter);
+                output_file.WriteLine(iter);
+            }
+
+            Console.WriteLine("elements of list2");
+            foreach (string iter in elements2)
+            {
+                Console.WriteLine(iter);
+                output_file.WriteLine(iter);
+            }
+
+            Console.WriteLine("Result of list intersection:");
+            foreach (string iter in add)
+            {
+                Console.WriteLine(iter);
+                output_file.WriteLine(iter);
+            }
+
+            if (input_file1 != null && input_file2 != null)
+            {
+                input_file1.Close();
+                input_file2.Close();
+                output_file.Close();
+            }
+
+            Console.ReadLine();
+        }
+    }
+}
