@@ -1,0 +1,37 @@
+
+using System;
+namespace lec2csharp
+{
+    class Program
+    {
+        static int factorial(int n)
+        {
+            int fact = 1;
+            //for (int i = 1; i <= n; ++i)
+            //{
+            //    fact = fact * i;//fact *= i;
+            //}
+
+            if (n == 0)
+                return 1;//
+            else
+                fact = n * factorial(n - 1);//using recursion
+
+            return fact;
+        }
+        static void Main()
+        {
+            int n,fact = 1;
+            Console.WriteLine("Enter an integer: ");
+            n = int.Parse(Console.ReadLine());
+            if (n < 0)
+                Console.WriteLine("Error! Factorial of a negative number doesn't exist.");
+            else
+            {
+                fact = factorial(n);
+                Console.WriteLine("Factorial of {0} = {1}", n, fact);
+            }
+            Console.ReadLine();
+        }
+    }
+}
