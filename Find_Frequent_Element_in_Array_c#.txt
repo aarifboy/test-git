@@ -1,0 +1,61 @@
+
+using System;
+using System.Collections.Generic;//for Dictionary
+
+namespace lec2csharp
+{
+    class Program
+    {
+        static void Main()
+        {
+            int count = 0;
+            int element = 0;
+            //int[] arr = new int [] { 1, 1, 1, 2 };
+            int[] arr = new int[] {1,2,3,4,5,5,5,5,5,5};
+            int size = arr.Length;//to calculate size of array
+            //for (int i = 0; i < size; ++i)
+            //{
+            //    int temp_cnt = 0;
+            //    int temp_ele = arr[i];
+            //    for (int j = 0; j < size; ++j)
+            //    {
+            //        //if (arr[i] == arr[j])
+            //        if (arr[j] == temp_ele)
+            //            ++temp_cnt;
+            //    }
+            //    if (temp_cnt > count)
+            //    {
+            //        count = temp_cnt;
+            //        element = temp_ele;
+            //        //element = arr[i];
+            //    }
+            //}
+
+            Dictionary <int, int> elements = new Dictionary<int, int>();
+            foreach (int iter in arr)
+            {
+                int temp_cnt = 0;
+                //elements.TryGetValue(iter, out temp_cnt);
+                if (elements.ContainsKey(iter))
+                {
+                    temp_cnt = elements[iter]; //alternative for TryGetValue
+                }
+                temp_cnt++;
+                elements[iter] = temp_cnt;
+            }
+
+            foreach (var iter in elements)
+            {
+                if (count < iter.Value)
+                {
+                    element = iter.Key;
+                    count = iter.Value;
+                }
+            }
+
+            Console.WriteLine( "frequent element:{0} ", element);
+            Console.WriteLine( "with count:{0} ", count);
+            Console.Read();
+        }
+    }
+}
