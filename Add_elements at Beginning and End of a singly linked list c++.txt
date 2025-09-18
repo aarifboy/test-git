@@ -1,0 +1,84 @@
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include <forward_list>
+
+
+//struct List
+//{
+//	std::string data;
+//	List *next;
+//	List(std::string d) :data(d),next(NULL) {};
+//};
+
+int main()
+{
+	std::ifstream input_file("test.txt");
+	std::ofstream output_file("test.txt.out");
+
+	//List *elements, *node, *iter;
+	//elements = node =iter = NULL;
+
+	std::forward_list<std::string> elements;
+
+	std::string line;
+	for (; std::getline(input_file, line);)
+	{
+		//iter = new List;
+		//iter->data = line;
+		//iter->next = NULL;
+		//iter = new List(line);
+
+		//if (elements == NULL)
+		//{
+		//	node = elements = iter;
+		//}
+		//else
+		//{
+		//	node = node->next = iter;
+		//}		
+
+		//if (elements == NULL)
+		//{
+		//	elements = iter;
+		//}
+		//else
+		//{
+		//	iter->next = elements;
+		//	elements = iter;
+		//}
+
+		//elements.push_front(line);
+
+		auto it = elements.before_begin();
+		while (std::next(it) != elements.end()){
+			it++;
+		}
+		elements.insert_after(it, line);
+		
+	}
+
+	//for (iter = elements; iter != NULL; iter = iter->next)
+	//{
+	//	std::cout << iter->data << std::endl;
+	//	output_file << iter->data << std::endl;
+	//}
+
+	std::forward_list<std::string>::iterator iter = elements.begin();
+	for (; iter != elements.end(); ++iter)
+	{
+		std::cout << (*iter) << std::endl;
+		output_file << (*iter) << std::endl;
+	}
+
+	//delete iter;
+	//iter = NULL;
+
+	if (input_file)
+	{
+		input_file.close();
+		output_file.close();
+	}
+	std::cin.get();
+	return 0;
+}

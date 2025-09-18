@@ -1,0 +1,71 @@
+using System;
+using System.Collections.Generic;//for string and list
+using System.IO;//to use StreamReader
+namespace lec1csharp
+{
+    class Program
+    {
+        class List
+        {
+            public string data;
+            public List next;
+            public List(string d)
+            {
+                data = d;
+                next = null;
+            }
+        };
+        static void Main()
+        {
+            StreamReader input_file = new StreamReader("test.txt");
+            StreamWriter output_file = new StreamWriter("test.txt.out");
+
+            List elements, node,iter;
+            elements = node =iter = null;
+
+            string line = "";
+            for (; (line = input_file.ReadLine()) != null;)
+            {
+                //iter = new List();
+                //iter.data = line;
+                //iter.next = null;
+                iter = new List(line);
+
+                //if (elements == null)
+                //{
+                //    node = elements = iter;
+                //}
+                //else
+                //{
+                //    node = node.next = iter;
+                //}
+
+                if (elements == null)
+                {
+                    elements = iter;
+                }
+                else
+                {
+                    iter.next = elements;
+                    elements = iter;
+                }
+
+            }
+
+            for (iter = elements; iter != null; iter = iter.next)
+            {
+                Console.WriteLine(iter.data);
+                output_file.WriteLine(iter.data);
+            }
+
+            iter = null;
+
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+            Console.ReadLine();
+        }
+    }
+}
