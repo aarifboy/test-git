@@ -1,0 +1,85 @@
+using System;
+using System.Collections.Generic;//for string and list
+using System.IO;//to use StreamReader
+using System.Linq;//for Reverse
+namespace lec1csharp
+{
+    class Program
+    {
+        class List
+        {
+            public string data;
+            public List next, prev;
+            public List(string d)
+            {
+                data = d;
+                next = null;
+                prev = null; ;
+            }
+        };
+        static void Main()
+        {
+            StreamReader input_file = new StreamReader("test.txt");
+            StreamWriter output_file = new StreamWriter("test.txt.out");
+
+            //List elements, node,iter;
+            //elements = node =iter = null;
+            LinkedList<string> elements = new LinkedList<string>();
+
+            string line = "";
+            for (; (line = input_file.ReadLine()) != null;)
+            {
+                //iter = new List(line);
+
+                //if (elements == null)
+                //{
+                //    elements = iter;
+                //}
+                //else
+                //{
+                //    node = elements;
+                //    while (node.next != null)
+                //    {
+                //        node = node.next;
+                //    }
+                //    node.next = iter;
+                //    iter.prev = node;
+                //}
+
+                elements.AddLast(line);
+            }
+
+            //iter = elements;
+            //for (; iter.next != null; iter = iter.next){}
+            //for (; iter != null; iter = iter.prev)
+            ////for (; iter != null; iter = iter.next)
+            //{
+            //    Console.WriteLine(iter.data);
+            //    output_file.WriteLine(iter.data);
+            //}
+
+            //IEnumerator<string> iter = elements.GetEnumerator();
+            //for (; iter.MoveNext();)
+            //{
+            //    Console.WriteLine(iter.Current);
+            //    output_file.WriteLine(iter.Current);
+            //}
+
+            var iter = elements.Last;
+            for (; iter != null; iter = iter.Previous)
+            {
+                Console.WriteLine(iter.Value);
+                output_file.WriteLine(iter.Value);
+            }
+
+            //iter = null;
+
+            if (input_file != null)
+            {
+                input_file.Close();
+                output_file.Close();
+            }
+            Console.ReadLine();
+        }
+    }
+}
