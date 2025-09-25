@@ -1,0 +1,90 @@
+#include <iostream>    //for cout
+#include <fstream>     // for ofstream/ifstream
+#include <string>     //for << and getline
+#include <list>
+
+struct List
+{
+	std::string data;
+	List *next, *prev;
+	List(std::string d) :data(d), next(NULL), prev(NULL) {};
+};
+
+class Linked_List {
+public:
+	List *head, *tail;
+	Linked_List() :head(NULL), tail(NULL) {}
+};
+int main()
+{
+	std::ifstream input_file("test.txt");
+	std::ofstream output_file("test.txt.out");
+
+	//List *elements, *node, *iter;
+	//elements = node =iter = NULL;
+
+	std::list<std::string> elements;
+	//Linked_List l;
+	std::string line;
+	for (; std::getline(input_file, line);)
+	{
+		//iter = new List(line);
+
+		//if (elements == NULL) {
+		//	elements = iter;
+		//}
+		//else {
+		//	node = elements;
+		//	while (node->next != NULL) {
+		//		node = node->next;
+		//	}
+		//	node->next = iter;
+		//	iter->prev = node;
+		//}
+
+		//if (l.head == NULL) {
+		//	l.head = iter;
+		//}
+		//else {
+		//	l.tail->next = iter;
+		//	iter->prev = l.tail;
+		//}
+		//l.tail = iter;
+
+		elements.push_back(line);
+	}
+
+	//iter = elements;
+	////iter = l.head;
+	//for (; iter != NULL; iter = iter->next)
+	//{
+	//	std::cout << iter->data << std::endl;
+	//	output_file << iter->data << std::endl;
+	//}
+	//for (iter = elements; iter->next != NULL; iter = iter->next){}
+	//std::cout << elements->data << ":" << iter->data << std::endl;
+	//std::cout << l.head->data << ":" << l.tail->data << std::endl;
+
+	std::list<std::string>::iterator iter = elements.begin();
+	for (; iter != elements.end(); ++iter)
+	{
+		std::cout << (*iter) << std::endl;
+		output_file << (*iter) << std::endl;
+	}
+	//auto s = elements.begin();//gives front
+	//auto x = --elements.end();//gives back
+	//std::cout << *s << ":" << *x << std::endl;
+	std::cout << elements.front() << ":" << elements.back() << std::endl;
+
+	//delete iter;
+	//iter = NULL;
+
+	if (input_file)
+	{
+		input_file.close();
+		output_file.close();
+	}
+	std::cin.get();
+	return 0;
+}
+
